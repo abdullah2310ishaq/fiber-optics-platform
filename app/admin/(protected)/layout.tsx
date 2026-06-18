@@ -8,14 +8,14 @@ export default async function AdminProtectedLayout({
   children: React.ReactNode;
 }) {
   const session = await verifyAdminSession();
-  if (!session) {
-    redirect("/admin/login");
-  }
+  if (!session) redirect("/admin/login");
 
   return (
-    <div className="flex min-h-screen bg-slate-900 text-slate-100">
+    <div className="flex min-h-screen bg-[#0f172a] text-slate-100">
       <AdminSidebar adminUsername={session.username} />
-      <main className="flex-1 overflow-auto p-8">{children}</main>
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <main className="flex-1 overflow-auto">{children}</main>
+      </div>
     </div>
   );
 }

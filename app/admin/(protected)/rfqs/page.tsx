@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { createOrder } from "@/lib/firestore/orders";
+import { createOrderFromRfq } from "@/lib/firestore/orders";
 import { getAllRfqs, updateRfqStatus } from "@/lib/firestore/rfqs";
 import type { Rfq, RfqStatus } from "@/types/rfq";
 
@@ -38,7 +38,7 @@ export default function AdminRfqsPage() {
   }
 
   async function convertToOrder(rfq: Rfq) {
-    await createOrder({
+    await createOrderFromRfq({
       rfqId: rfq.id,
       companyName: rfq.companyName,
       contactName: rfq.contactName,

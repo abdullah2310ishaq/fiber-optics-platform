@@ -33,7 +33,7 @@ export function ProductImageGallery({ name, images }: ProductImageGalleryProps) 
 
   return (
     <div className="space-y-4">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-muted shadow-sm sm:aspect-square">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-muted shadow-md sm:aspect-square">
         <Image
           src={activeImage}
           alt={name}

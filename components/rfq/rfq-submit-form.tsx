@@ -73,10 +73,10 @@ export function RfqSubmitForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-border bg-card p-6">
-      <h2 className="text-lg font-semibold">Submit Request for Quote</h2>
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-border bg-card p-6 shadow-sm">
+      <h2 className="text-lg font-semibold">Submit Quotation Request</h2>
       <p className="text-sm text-muted-foreground">
-        No account needed. Fill in your contact details and submit.
+        For bulk / custom pricing. This is separate from cart checkout.
       </p>
 
       <div className="grid gap-4 sm:grid-cols-2">

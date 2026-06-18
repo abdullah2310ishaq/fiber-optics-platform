@@ -64,6 +64,7 @@ export const sampleProducts: Omit<Product, "id" | "createdAt" | "updatedAt">[] =
     },
     images: productImages(1),
     isRfqOnly: true,
+    price: 24.99,
     status: "active",
   },
   {
@@ -151,6 +152,7 @@ export const sampleProducts: Omit<Product, "id" | "createdAt" | "updatedAt">[] =
     },
     images: productImages(6),
     isRfqOnly: true,
+    price: 18.5,
     status: "active",
   },
   {

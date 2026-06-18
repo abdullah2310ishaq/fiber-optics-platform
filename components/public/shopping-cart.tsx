@@ -1,45 +1,47 @@
 "use client";
 
 import Image from "next/image";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useMounted } from "@/hooks/use-mounted";
-import { useQuoteCart } from "@/store/quote-cart";
+import { useShoppingCart } from "@/store/shopping-cart";
 
-export function AddToQuoteButton({
+export function AddToCartButton({
   productId,
   slug,
   name,
   sku,
+  price,
   image,
 }: {
   productId: string;
   slug: string;
   name: string;
   sku: string;
+  price: number;
   image?: string;
 }) {
-  const addItem = useQuoteCart((s) => s.addItem);
+  const addItem = useShoppingCart((s) => s.addItem);
 
   return (
     <Button
-      variant="accent"
-      onClick={() => addItem({ productId, slug, name, sku, image })}
+      variant="default"
+      onClick={() => addItem({ productId, slug, name, sku, price, image })}
     >
-      Add to Quote
+      <ShoppingCart className="h-4 w-4" />
+      Add to Cart
     </Button>
   );
 }
 
-export function QuoteCartList() {
+export function ShoppingCartList() {
   const mounted = useMounted();
-  const { items, removeItem, updateQuantity, updateNotes } = useQuoteCart();
+  const { items, removeItem, updateQuantity, subtotal } = useShoppingCart();
 
   if (!mounted) {
     return (
       <div className="rounded-xl border border-dashed border-border bg-card p-12 text-center text-muted-foreground">
-        Loading quote cart...
+        Loading cart...
       </div>
     );
   }
@@ -47,7 +49,7 @@ export function QuoteCartList() {
   if (items.length === 0) {
     return (
       <div className="rounded-xl border border-dashed border-border bg-muted/30 p-12 text-center text-muted-foreground">
-        Your quotation list is empty. Browse products and add items for bulk RFQ pricing.
+        Your cart is empty. Add priced products to place a direct order with shipping.
       </div>
     );
   }
@@ -57,7 +59,7 @@ export function QuoteCartList() {
       {items.map((item) => (
         <div
           key={item.productId}
-          className="flex flex-col gap-4 rounded-xl border border-border bg-card p-4 shadow-sm sm:flex-row sm:items-start"
+          className="flex flex-col gap-4 rounded-xl border border-border bg-card p-4 sm:flex-row sm:items-start"
         >
           <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-muted">
             {item.image ? (
@@ -69,6 +71,7 @@ export function QuoteCartList() {
               <div>
                 <h3 className="font-semibold">{item.name}</h3>
                 <p className="text-sm text-muted-foreground">{item.sku}</p>
+                <p className="mt-1 text-sm font-medium">${item.price.toFixed(2)} each</p>
               </div>
               <Button variant="ghost" size="icon" onClick={() => removeItem(item.productId)}>
                 <Trash2 className="h-4 w-4 text-destructive" />
@@ -91,15 +94,16 @@ export function QuoteCartList() {
               >
                 <Plus className="h-4 w-4" />
               </Button>
+              <span className="ml-auto font-semibold">
+                ${(item.price * item.quantity).toFixed(2)}
+              </span>
             </div>
-            <Input
-              placeholder="Notes (optional)"
-              value={item.notes ?? ""}
-              onChange={(e) => updateNotes(item.productId, e.target.value)}
-            />
           </div>
         </div>
       ))}
+      <div className="flex justify-end rounded-xl border border-border bg-muted/50 p-4">
+        <p className="text-lg font-semibold">Subtotal: ${subtotal().toFixed(2)}</p>
+      </div>
     </div>
   );
 }

@@ -60,13 +60,13 @@ export default function AdminOrdersPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-white">Orders ({orders.length})</h1>
-      <p className="mt-1 text-slate-400">Track and update order status.</p>
+      <p className="mt-1 text-slate-400">Cart orders & RFQ conversions — update shipping status.</p>
 
       {loading ? (
         <p className="mt-8 text-slate-400">Loading...</p>
       ) : orders.length === 0 ? (
         <p className="mt-8 rounded-lg border border-dashed border-slate-700 p-8 text-center text-slate-500">
-          No orders yet. Convert an approved RFQ to create an order.
+          No orders yet. Customers place orders via Cart, or convert approved RFQs.
         </p>
       ) : (
         <div className="mt-6 space-y-4">
@@ -74,13 +74,28 @@ export default function AdminOrdersPage() {
             <div key={order.id} className="rounded-xl border border-slate-700 bg-slate-800 p-5">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <p className="font-semibold text-white">{order.companyName}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-semibold text-white">{order.companyName}</p>
+                    <span className={`rounded px-2 py-0.5 text-xs ${
+                      order.orderType === "direct"
+                        ? "bg-green-500/20 text-green-300"
+                        : "bg-blue-500/20 text-blue-300"
+                    }`}>
+                      {order.orderType === "direct" ? "Cart Order" : "From RFQ"}
+                    </span>
+                  </div>
                   <p className="text-sm text-slate-400">
                     {order.contactName} · {order.contactEmail}
                   </p>
                   <p className="mt-1 text-xs text-slate-500">
                     {order.createdAt.toLocaleDateString()} · {order.items.length} item(s)
+                    {order.subtotal != null ? ` · $${order.subtotal.toFixed(2)}` : ""}
                   </p>
+                  {order.shippingAddress && (
+                    <p className="mt-2 text-xs text-slate-500">
+                      Ship to: {order.shippingAddress.addressLine1}, {order.shippingAddress.city}, {order.shippingAddress.country}
+                    </p>
+                  )}
                 </div>
                 <span className={`rounded-full px-3 py-1 text-xs font-medium ${statusColors[order.status]}`}>
                   {order.status.replace("_", " ")}
