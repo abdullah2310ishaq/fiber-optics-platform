@@ -17,6 +17,7 @@ import {
   Workflow,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CONTACT_EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL } from "@/lib/site/contact";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -31,7 +32,7 @@ const productLinks = [
 
 const companyLinks = [
   { href: "/products", label: "About" },
-  { href: "/rfq", label: "Contact" },
+  { href: WHATSAPP_URL, label: "Contact Us", external: true },
   { href: "/rfq", label: "RFQ" },
   { href: "/track-order", label: "Tracking" },
 ];
@@ -68,7 +69,7 @@ function FooterLinkColumn({
   links,
 }: {
   title: string;
-  links: { href: string; label: string }[];
+  links: { href: string; label: string; external?: boolean }[];
 }) {
   return (
     <div>
@@ -78,13 +79,25 @@ function FooterLinkColumn({
       <ul className="mt-5 space-y-3">
         {links.map((link) => (
           <li key={link.label}>
-            <Link
-              href={link.href}
-              className="group inline-flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-cyan-400"
-            >
-              <span className="h-px w-0 bg-cyan-400 transition-all group-hover:w-3" />
-              {link.label}
-            </Link>
+            {link.external ? (
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-cyan-400"
+              >
+                <span className="h-px w-0 bg-cyan-400 transition-all group-hover:w-3" />
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                href={link.href}
+                className="group inline-flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-cyan-400"
+              >
+                <span className="h-px w-0 bg-cyan-400 transition-all group-hover:w-3" />
+                {link.label}
+              </Link>
+            )}
           </li>
         ))}
       </ul>
@@ -94,7 +107,7 @@ function FooterLinkColumn({
 
 export function SiteFooter() {
   return (
-    <footer className="relative mt-auto overflow-hidden border-t border-white/10 bg-slate-950 text-slate-300">
+    <footer className="relative mt-auto overflow-hidden border-t border-border bg-background text-secondary">
       <div className="dot-pattern absolute inset-0 opacity-20" />
       <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
       <div className="absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-cyan-500/10 blur-[100px]" />
@@ -158,7 +171,7 @@ export function SiteFooter() {
                 asChild
               >
                 <a
-                  href="https://wa.me/971559247636"
+                  href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -238,21 +251,21 @@ export function SiteFooter() {
               <li className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 shrink-0 text-cyan-500/70" />
                 <a
-                  href="mailto:nasir.ch87@yahoo.com"
+                  href={`mailto:${CONTACT_EMAIL}`}
                   className="transition-colors hover:text-cyan-400"
                 >
-                  nasir.ch87@yahoo.com
+                  {CONTACT_EMAIL}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <MessageCircle className="h-4 w-4 shrink-0 text-cyan-500/70" />
                 <a
-                  href="https://wa.me/971559247636"
+                  href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="transition-colors hover:text-cyan-400"
                 >
-                  WhatsApp · +971 55 924 7636
+                  WhatsApp · {WHATSAPP_DISPLAY}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">

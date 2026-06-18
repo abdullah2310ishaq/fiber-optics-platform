@@ -12,6 +12,8 @@ import {
   type DocumentData,
 } from "firebase/firestore";
 import { db } from "@/app/firebase/client";
+import { createAdminNotification } from "@/lib/firestore/admin-notifications";
+import { stripUndefinedDeep } from "@/lib/utils";
 import type {
   CreateDirectOrderInput,
   CreateRfqOrderInput,
@@ -59,26 +61,39 @@ function mapOrder(id: string, data: DocumentData): Order {
 }
 
 export async function createDirectOrder(input: CreateDirectOrderInput): Promise<string> {
-  const docRef = await addDoc(collection(db, "orders"), {
-    orderType: "direct",
-    ...input,
-    status: "pending",
-    statusHistory: [{ status: "pending", note: "Order placed", at: new Date() }],
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
+  const docRef = await addDoc(
+    collection(db, "orders"),
+    stripUndefinedDeep({
+      orderType: "direct",
+      ...input,
+      status: "pending",
+      statusHistory: [{ status: "pending", note: "Order placed", at: new Date() }],
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    })
+  );
+  await createAdminNotification({
+    type: "order",
+    referenceId: docRef.id,
+    title: "New cart order",
+    body: `${input.companyName} placed an order (${input.items.length} item(s))`,
+    href: `/admin/orders?focus=${docRef.id}`,
   });
   return docRef.id;
 }
 
 export async function createOrderFromRfq(input: CreateRfqOrderInput): Promise<string> {
-  const docRef = await addDoc(collection(db, "orders"), {
-    orderType: "rfq_converted",
-    ...input,
-    status: "pending",
-    statusHistory: [{ status: "pending", note: "Converted from RFQ", at: new Date() }],
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
+  const docRef = await addDoc(
+    collection(db, "orders"),
+    stripUndefinedDeep({
+      orderType: "rfq_converted",
+      ...input,
+      status: "pending",
+      statusHistory: [{ status: "pending", note: "Converted from RFQ", at: new Date() }],
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    })
+  );
   return docRef.id;
 }
 
@@ -115,12 +130,15 @@ export async function updateOrderStatus(
   const history = Array.isArray(existing.statusHistory) ? [...existing.statusHistory] : [];
   history.push({ status, at: new Date(), note: extra?.notes });
 
-  await updateDoc(doc(db, "orders", id), {
-    status,
-    ...extra,
-    statusHistory: history,
-    updatedAt: serverTimestamp(),
-  });
+  await updateDoc(
+    doc(db, "orders", id),
+    stripUndefinedDeep({
+      status,
+      ...extra,
+      statusHistory: history,
+      updatedAt: serverTimestamp(),
+    })
+  );
 }
 
 export async function getOrderCount(): Promise<number> {

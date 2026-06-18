@@ -12,14 +12,43 @@
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
   --accent: #06b6d4;
-  --accent-foreground: #ffffff;
+  --accent-foreground: #020617;
   --destructive: #ef4444;
   --border: #e2e8f0;
   --input: #e2e8f0;
   --ring: #06b6d4;
   --radius: 0.75rem;
+  --success: #10b981;
   --navy-950: #020617;
   --navy-900: #0f172a;
+}
+
+/* Premium dark enterprise theme — public site only */
+.public-site {
+  --background: #020617;
+  --foreground: #ffffff;
+  --card: #111827;
+  --card-foreground: #ffffff;
+  --primary: #06b6d4;
+  --primary-foreground: #020617;
+  --secondary: #0f172a;
+  --secondary-foreground: #cbd5e1;
+  --muted: #0f172a;
+  --muted-foreground: #64748b;
+  --accent: #06b6d4;
+  --accent-hover: #22d3ee;
+  --accent-secondary: #14b8a6;
+  --accent-foreground: #020617;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #06b6d4;
+  --success: #10b981;
+
+  color-scheme: dark;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
 }
 
 @theme inline {
@@ -39,8 +68,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-success: var(--success);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -50,12 +80,33 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-body), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 * {
   border-color: var(--border);
+}
+
+.public-site h1,
+.public-site h2,
+.public-site h3,
+.public-site h4,
+.public-site .display-font,
+.public-site .brand-wordmark,
+.public-site .heading-font {
+  font-family: var(--font-heading), system-ui, sans-serif;
+}
+
+.public-site .text-secondary {
+  color: #cbd5e1;
+}
+
+.public-site .enterprise-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
 .enterprise-grid {
@@ -75,17 +126,17 @@ body {
 .hero-gradient {
   background: linear-gradient(
     105deg,
-    rgba(2, 6, 23, 0.92) 0%,
-    rgba(15, 23, 42, 0.75) 45%,
-    rgba(15, 23, 42, 0.55) 100%
+    rgba(2, 6, 23, 0.94) 0%,
+    rgba(15, 23, 42, 0.82) 45%,
+    rgba(15, 23, 42, 0.65) 100%
   );
 }
 
 .cta-gradient {
   background-color: #0f172a;
   background-image:
-    radial-gradient(ellipse 70% 80% at 50% 120%, rgba(6, 182, 212, 0.25), transparent),
-    radial-gradient(ellipse 40% 50% at 0% 0%, rgba(20, 184, 166, 0.15), transparent),
+    radial-gradient(ellipse 70% 80% at 50% 120%, rgba(6, 182, 212, 0.22), transparent),
+    radial-gradient(ellipse 40% 50% at 0% 0%, rgba(20, 184, 166, 0.14), transparent),
     radial-gradient(ellipse 40% 50% at 100% 0%, rgba(6, 182, 212, 0.1), transparent);
 }
 
@@ -96,8 +147,24 @@ body {
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
+.public-site .glass-card {
+  background: rgba(17, 24, 39, 0.72);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(6, 182, 212, 0.04),
+    0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
 .glass-card:hover {
   box-shadow: 0 4px 6px rgba(15, 23, 42, 0.05), 0 16px 40px rgba(15, 23, 42, 0.1);
+}
+
+.public-site .glass-card:hover {
+  border-color: rgba(6, 182, 212, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(6, 182, 212, 0.08),
+    0 12px 40px rgba(6, 182, 212, 0.08);
 }
 
 .feature-card {
@@ -107,9 +174,16 @@ body {
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.feature-card:hover {
+.public-site .feature-card {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card:hover,
+.public-site .feature-card:hover {
   border-color: rgba(6, 182, 212, 0.25);
-  box-shadow: 0 8px 30px rgba(6, 182, 212, 0.08);
+  box-shadow: 0 8px 32px rgba(6, 182, 212, 0.1);
 }
 
 .section-label {
@@ -121,11 +195,23 @@ body {
 }
 
 .brand-wordmark {
-  font-family: var(--font-brand), "Cormorant Garamond", Georgia, serif;
+  font-family: var(--font-heading), system-ui, sans-serif;
 }
 
 .display-font {
-  font-family: var(--font-display), "Syne", system-ui, sans-serif;
+  font-family: var(--font-heading), system-ui, sans-serif;
+}
+
+.public-site .fiber-glow {
+  box-shadow: 0 0 48px rgba(6, 182, 212, 0.12);
+}
+
+.public-site .cta-gradient-btn {
+  background-image: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+}
+
+.public-site .cta-gradient-btn:hover {
+  background-image: linear-gradient(135deg, #22d3ee 0%, #14b8a6 100%);
 }
 
 @keyframes marquee {
@@ -148,4 +234,9 @@ body {
 .dot-pattern {
   background-image: radial-gradient(rgba(6, 182, 212, 0.15) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+.public-site ::selection {
+  background: rgba(6, 182, 212, 0.35);
+  color: #ffffff;
 }

@@ -6,11 +6,12 @@ import {
   orderBy,
   query,
   serverTimestamp,
-  setDoc,
   updateDoc,
   type DocumentData,
 } from "firebase/firestore";
 import { db } from "@/app/firebase/client";
+import { createAdminNotification } from "@/lib/firestore/admin-notifications";
+import { stripUndefinedDeep } from "@/lib/utils";
 import type { CreateGuestRfqInput, Rfq, RfqStatus } from "@/types/rfq";
 
 function toDate(value: unknown): Date {
@@ -36,11 +37,21 @@ function mapRfq(id: string, data: DocumentData): Rfq {
 }
 
 export async function createRfq(input: CreateGuestRfqInput): Promise<string> {
-  const docRef = await addDoc(collection(db, "rfqs"), {
-    ...input,
-    status: "submitted",
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
+  const docRef = await addDoc(
+    collection(db, "rfqs"),
+    stripUndefinedDeep({
+      ...input,
+      status: "submitted",
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    })
+  );
+  await createAdminNotification({
+    type: "rfq",
+    referenceId: docRef.id,
+    title: "New RFQ received",
+    body: `${input.companyName} submitted a quotation request`,
+    href: `/admin/rfqs?focus=${docRef.id}`,
   });
   return docRef.id;
 }

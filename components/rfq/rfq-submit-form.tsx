@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createRfq } from "@/lib/firestore/rfqs";
+import { notifyEmails } from "@/lib/email/notify-client";
 import { useMounted } from "@/hooks/use-mounted";
 import { useQuoteCart } from "@/store/quote-cart";
 
@@ -33,14 +34,19 @@ export function RfqSubmitForm() {
 
     setSubmitting(true);
     try {
-      const id = await createRfq({
+      const payload = {
         contactName: contactName.trim(),
         contactEmail: contactEmail.trim(),
         contactPhone: contactPhone.trim() || undefined,
         companyName: companyName.trim(),
         message: message.trim(),
         items,
-      });
+      };
+
+      const id = await createRfq(payload);
+
+      await notifyEmails("/api/rfq/notify", { rfqId: id, ...payload });
+
       setSuccessId(id);
       clearCart();
     } catch {
@@ -64,8 +70,8 @@ export function RfqSubmitForm() {
         <CheckCircle className="mx-auto h-12 w-12 text-accent" />
         <h2 className="mt-4 text-xl font-semibold">RFQ Submitted Successfully</h2>
         <p className="mt-2 text-muted-foreground">
-          Your quote request has been received. Our team will contact you at{" "}
-          <strong>{contactEmail}</strong> shortly.
+          Your quote request has been received. A confirmation email has been sent to{" "}
+          <strong>{contactEmail}</strong>. Our team will respond within 24 hours.
         </p>
         <p className="mt-1 text-sm text-muted-foreground">Reference: {successId}</p>
       </div>

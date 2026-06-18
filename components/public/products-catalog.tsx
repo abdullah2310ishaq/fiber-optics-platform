@@ -38,7 +38,7 @@ export function ProductsCatalog() {
   return (
     <div className="-mt-16 lg:-mt-[4.5rem]">
       {/* Hero + search */}
-      <section className="relative overflow-hidden border-b border-white/10 bg-slate-950 text-white">
+      <section className="relative overflow-hidden border-b border-border bg-background text-white">
         <div className="dot-pattern absolute inset-0 opacity-30" />
         <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-cyan-500/15 blur-[100px]" />
         <div className="absolute -left-20 bottom-0 h-56 w-56 rounded-full bg-teal-500/10 blur-[80px]" />
@@ -117,7 +117,7 @@ export function ProductsCatalog() {
       </section>
 
       {/* Sticky horizontal categories */}
-      <div className="sticky top-16 z-40 border-b border-border bg-white/95 shadow-sm backdrop-blur-xl lg:top-[4.5rem]">
+      <div className="sticky top-16 z-40 border-b border-border bg-background/95 shadow-sm backdrop-blur-xl lg:top-[4.5rem]">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0 flex-1">
@@ -131,7 +131,7 @@ export function ProductsCatalog() {
               ) : (
                 <div className="flex gap-2">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <div key={i} className="h-9 w-24 animate-pulse rounded-full bg-slate-100" />
+                    <div key={i} className="h-9 w-24 animate-pulse rounded-full bg-secondary" />
                   ))}
                 </div>
               )}
@@ -145,7 +145,7 @@ export function ProductsCatalog() {
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="whitespace-nowrap text-xs font-semibold text-cyan-600 transition-colors hover:text-cyan-700"
+                  className="whitespace-nowrap text-xs font-semibold text-accent transition-colors hover:text-[#22D3EE]"
                 >
                   Clear all
                 </button>
@@ -156,18 +156,18 @@ export function ProductsCatalog() {
       </div>
 
       {/* Full-width results */}
-      <div className="bg-[#f8fafc]">
+      <div className="bg-background">
         <div className="mx-auto max-w-screen-2xl px-4 py-10 sm:px-6 lg:px-10 lg:py-14">
           {(activeCategory || search) && (
             <div className="mb-8 flex flex-wrap items-center gap-2">
               <span className="text-sm text-muted-foreground">Showing:</span>
               {activeCategory && (
-                <span className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-700">
+                <span className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-accent">
                   {activeCategory.name}
                 </span>
               )}
               {search && (
-                <span className="rounded-full border border-border bg-white px-3 py-1 text-xs font-medium text-foreground">
+                <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground">
                   &ldquo;{search}&rdquo;
                 </span>
               )}
@@ -179,14 +179,14 @@ export function ProductsCatalog() {
               {Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white animate-pulse"
+                  className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card animate-pulse"
                 >
-                  <div className="aspect-[2/1] bg-slate-100" />
+                  <div className="aspect-[2/1] bg-secondary" />
                   <div className="flex flex-1 flex-col space-y-2.5 p-4">
-                    <div className="h-3 w-1/4 rounded bg-slate-100" />
-                    <div className="h-10 w-full rounded bg-slate-100" />
-                    <div className="h-3 w-1/2 rounded bg-slate-100" />
-                    <div className="mt-auto h-8 w-full rounded bg-slate-100" />
+                    <div className="h-3 w-1/4 rounded bg-secondary" />
+                    <div className="h-10 w-full rounded bg-secondary" />
+                    <div className="h-3 w-1/2 rounded bg-secondary" />
+                    <div className="mt-auto h-8 w-full rounded bg-secondary" />
                   </div>
                 </div>
               ))}

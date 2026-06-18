@@ -97,6 +97,7 @@ export function HeroCarousel() {
             alt={slide.alt}
             fill
             priority={i === 0}
+            loading={i === 0 ? "eager" : "lazy"}
             className="object-cover"
             sizes="100vw"
           />
@@ -118,7 +119,7 @@ export function HeroCarousel() {
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-7xl">
+          <h1 className="display-font text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-7xl">
             Industrial Fiber Optics
             <br />
             for{" "}

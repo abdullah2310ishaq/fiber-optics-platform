@@ -20,9 +20,9 @@ export function ProductGrid({
 }: ProductGridProps) {
   if (products.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-slate-50 px-8 py-20 text-center">
-        <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-white shadow-sm">
-          <EmptyCatalogIcon className="text-slate-300" size={40} />
+      <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card px-8 py-20 text-center">
+        <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-secondary shadow-sm">
+          <EmptyCatalogIcon className="text-muted-foreground" size={40} />
         </div>
         <p className="display-font mt-6 text-xl font-bold text-foreground">Nothing found</p>
         <p className="mt-2 max-w-sm text-sm text-muted-foreground">{emptyMessage}</p>
@@ -45,7 +45,7 @@ export function ProductGrid({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: Math.min(i * 0.05, 0.3), ease }}
         >
-          <ProductCard product={product} variant={variant} />
+          <ProductCard product={product} variant={variant} priority={i === 0} />
         </motion.div>
       ))}
     </div>

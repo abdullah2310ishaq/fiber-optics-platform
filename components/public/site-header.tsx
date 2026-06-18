@@ -10,17 +10,71 @@ import {
   QuotationIcon,
 } from "@/components/icons/fiber-icons";
 import { Button } from "@/components/ui/button";
+import { WHATSAPP_URL } from "@/lib/site/contact";
 import { cn } from "@/lib/utils";
 import { useMounted } from "@/hooks/use-mounted";
 import { useQuoteCart } from "@/store/quote-cart";
 import { useShoppingCart } from "@/store/shopping-cart";
 
-const navLinks = [
+type NavLink =
+  | { href: string; label: string; external?: false }
+  | { href: string; label: string; external: true };
+
+const navLinks: NavLink[] = [
+  { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
   { href: "/rfq", label: "Quotation" },
   { href: "/cart", label: "Cart" },
   { href: "/track-order", label: "Track Order" },
+  { href: WHATSAPP_URL, label: "Contact Us", external: true },
 ];
+
+function isNavActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function NavItem({
+  link,
+  pathname,
+  transparent,
+  className,
+}: {
+  link: NavLink;
+  pathname: string;
+  transparent: boolean;
+  className?: string;
+}) {
+  const active = !link.external && isNavActive(pathname, link.href);
+  const itemClass = cn(
+    "rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200",
+    active
+      ? "bg-cyan-400/15 text-cyan-300"
+      : transparent
+        ? "text-slate-300 hover:bg-white/10 hover:text-white"
+        : "text-slate-300 hover:bg-white/10 hover:text-white",
+    className
+  );
+
+  if (link.external) {
+    return (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={itemClass}
+      >
+        {link.label}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={link.href} className={itemClass}>
+      {link.label}
+    </Link>
+  );
+}
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -50,7 +104,7 @@ export function SiteHeader() {
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         transparent
           ? "border-b border-white/10 bg-transparent"
-          : "border-b border-white/10 bg-slate-950/80 shadow-lg shadow-black/10 backdrop-blur-xl"
+          : "border-b border-white/10 bg-background/80 shadow-lg shadow-black/20 backdrop-blur-xl"
       )}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-[4.5rem] lg:px-8">
@@ -70,20 +124,12 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200",
-                pathname === link.href
-                  ? "bg-cyan-400/15 text-cyan-300"
-                  : transparent
-                    ? "text-slate-300 hover:bg-white/10 hover:text-white"
-                    : "text-slate-300 hover:bg-white/10 hover:text-white"
-              )}
-            >
-              {link.label}
-            </Link>
+            <NavItem
+              key={link.label}
+              link={link}
+              pathname={pathname}
+              transparent={transparent}
+            />
           ))}
         </nav>
 
@@ -112,7 +158,7 @@ export function SiteHeader() {
 
           <Button
             size="sm"
-            className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md shadow-cyan-500/25 hover:from-cyan-400 hover:to-teal-400"
+            className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md shadow-cyan-500/25 hover:from-[#22D3EE] hover:to-teal-400"
             asChild
           >
             <Link href="/cart" className="relative">
@@ -143,20 +189,15 @@ export function SiteHeader() {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-white/10 bg-slate-950/95 px-4 py-4 backdrop-blur-xl lg:hidden">
+        <div className="border-t border-white/10 bg-background/95 px-4 py-4 backdrop-blur-xl lg:hidden">
           {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "block rounded-lg px-4 py-3 text-sm font-medium transition-colors",
-                pathname === link.href
-                  ? "bg-cyan-400/15 text-cyan-300"
-                  : "text-slate-300 hover:bg-white/5 hover:text-white"
-              )}
-            >
-              {link.label}
-            </Link>
+            <NavItem
+              key={link.label}
+              link={link}
+              pathname={pathname}
+              transparent={transparent}
+              className="block py-3"
+            />
           ))}
         </div>
       )}

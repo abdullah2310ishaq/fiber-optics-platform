@@ -63,7 +63,13 @@ export function ShoppingCartList() {
         >
           <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-muted">
             {item.image ? (
-              <Image src={item.image} alt={item.name} fill className="object-cover" />
+              <Image
+                src={item.image}
+                alt={item.name}
+                fill
+                sizes="80px"
+                className="object-cover"
+              />
             ) : null}
           </div>
           <div className="flex-1 space-y-3">

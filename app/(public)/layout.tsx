@@ -11,7 +11,7 @@ export default function PublicLayout({
   return (
     <QueryProvider>
       <CartStoreHydrator />
-      <div className="flex min-h-screen flex-col">
+      <div className="public-site flex min-h-screen flex-col bg-background text-foreground">
         <SiteHeader />
         <main className="flex-1 pt-16 lg:pt-[4.5rem]">{children}</main>
         <SiteFooter />

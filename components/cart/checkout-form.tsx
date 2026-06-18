@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useMounted } from "@/hooks/use-mounted";
 import { createDirectOrder } from "@/lib/firestore/orders";
+import { notifyEmails } from "@/lib/email/notify-client";
 import { useShoppingCart } from "@/store/shopping-cart";
 
 export function CheckoutForm() {
@@ -41,7 +42,7 @@ export function CheckoutForm() {
 
     setSubmitting(true);
     try {
-      const id = await createDirectOrder({
+      const orderPayload = {
         companyName: companyName.trim() || fullName.trim(),
         contactName: fullName.trim(),
         contactEmail: email.trim(),
@@ -67,10 +68,16 @@ export function CheckoutForm() {
         })),
         subtotal: subtotal(),
         notes: notes.trim() || undefined,
-      });
+      };
+
+      const id = await createDirectOrder(orderPayload);
+
+      await notifyEmails("/api/orders/notify", { orderId: id, ...orderPayload });
+
       setOrderId(id);
       clearCart();
-    } catch {
+    } catch (err) {
+      console.error("Order placement failed:", err);
       setError("Failed to place order. Please try again.");
     } finally {
       setSubmitting(false);
@@ -91,7 +98,8 @@ export function CheckoutForm() {
         <CheckCircle className="mx-auto h-12 w-12 text-accent" />
         <h2 className="mt-4 text-xl font-semibold">Order Placed Successfully</h2>
         <p className="mt-2 text-muted-foreground">
-          Order <strong>{orderId}</strong> has been received. Use your email to track shipping updates.
+          Order <strong>{orderId}</strong> has been received. A confirmation email has been sent to{" "}
+          <strong>{email}</strong>. You will receive updates when your order is processed, dispatched, and delivered.
         </p>
         <Button variant="accent" className="mt-6" asChild>
           <Link href={`/track-order?orderId=${orderId}&email=${encodeURIComponent(email)}`}>

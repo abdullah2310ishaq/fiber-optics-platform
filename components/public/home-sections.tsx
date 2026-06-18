@@ -96,9 +96,9 @@ function TrustMarquee() {
   const items = [...trustItems, ...trustItems];
 
   return (
-    <section className="relative overflow-hidden border-b border-slate-800 bg-slate-950 py-4">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-slate-950 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-slate-950 to-transparent" />
+    <section className="relative overflow-hidden border-b border-border bg-background py-4">
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
       <div className="marquee-track flex w-max gap-12 px-6">
         {items.map(({ icon: Icon, text }, i) => (
           <div
@@ -118,8 +118,8 @@ function TrustMarquee() {
 
 function WhySection() {
   return (
-    <section className="relative overflow-hidden bg-slate-950 py-28 text-white">
-      <div className="dot-pattern absolute inset-0 opacity-40" />
+    <section className="relative overflow-hidden bg-[#f1f5f9] py-28 text-slate-900">
+      <div className="enterprise-grid absolute inset-0 opacity-60" />
       <div className="absolute -left-32 top-20 h-96 w-96 rounded-full bg-cyan-500/10 blur-[120px]" />
       <div className="absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-teal-500/10 blur-[100px]" />
 
@@ -132,15 +132,21 @@ function WhySection() {
             variants={stagger}
             className="lg:sticky lg:top-28 lg:self-start"
           >
-            <SectionEyebrow>Why us</SectionEyebrow>
+            <motion.span
+              variants={fadeUp}
+              className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-cyan-700"
+            >
+              <span className="h-px w-8 bg-cyan-600/60" />
+              Why us
+            </motion.span>
             <motion.h2
               variants={fadeUp}
               custom={1}
-              className="display-font mt-6 text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl"
+              className="display-font mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl"
             >
               Built for
               <br />
-              <span className="bg-gradient-to-r from-cyan-300 to-teal-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent">
                 serious
               </span>{" "}
               procurement
@@ -148,13 +154,13 @@ function WhySection() {
             <motion.p
               variants={fadeUp}
               custom={2}
-              className="mt-6 max-w-md text-base leading-relaxed text-slate-400"
+              className="mt-6 max-w-md text-base leading-relaxed text-slate-600"
             >
               Not a retail store — a structured industrial sales infrastructure
               designed for telecom teams who need precision, speed, and visibility.
             </motion.p>
             <motion.div variants={fadeUp} custom={3} className="mt-10 hidden lg:block">
-              <div className="h-px w-24 bg-gradient-to-r from-cyan-400 to-transparent" />
+              <div className="h-px w-24 bg-gradient-to-r from-cyan-600 to-transparent" />
               <p className="mt-4 font-mono text-xs uppercase tracking-widest text-slate-500">
                 Trusted by ISPs · Contractors · Data Centers
               </p>
@@ -170,16 +176,18 @@ function WhySection() {
           >
             <motion.div
               variants={fadeUp}
-              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-8 sm:p-10"
+              className="group relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-8 shadow-sm sm:p-10"
             >
-              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-cyan-500/20 blur-3xl transition-all duration-700 group-hover:bg-cyan-500/30" />
+              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-cyan-500/10 blur-3xl transition-all duration-700 group-hover:bg-cyan-500/15" />
               <div className="relative flex flex-col gap-6 sm:flex-row sm:items-start">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400 to-teal-500 shadow-lg shadow-cyan-500/30">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-lg shadow-cyan-500/20">
                   <FiberCableIcon className="text-white" size={28} />
                 </div>
                 <div>
-                  <h3 className="display-font text-2xl font-bold">Deep Technical Catalog</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-400">
+                  <h3 className="display-font text-2xl font-bold text-slate-900">
+                    Deep Technical Catalog
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
                     Every component ships with full specifications — fiber type,
                     connector, insertion loss, distance rating, and core count.
                     Built for engineers who need facts, not marketing fluff.
@@ -188,9 +196,9 @@ function WhySection() {
                     {catalogTags.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700"
                       >
-                        <CheckBadgeIcon className="text-cyan-400" size={14} />
+                        <CheckBadgeIcon className="text-cyan-600" size={14} />
                         {tag}
                       </span>
                     ))}
@@ -206,7 +214,7 @@ function WhySection() {
                   variants={fadeUp}
                   custom={i}
                   whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6"
+                  className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm"
                 >
                   <div
                     className={cn(
@@ -215,9 +223,11 @@ function WhySection() {
                     )}
                   />
                   <div className="relative">
-                    <cap.icon className="text-cyan-400" size={24} />
-                    <h3 className="display-font mt-4 text-lg font-bold leading-snug">{cap.title}</h3>
-                    <p className="mt-2 text-xs leading-relaxed text-slate-400">{cap.desc}</p>
+                    <cap.icon className="text-cyan-600" size={24} />
+                    <h3 className="display-font mt-4 text-lg font-bold leading-snug text-slate-900">
+                      {cap.title}
+                    </h3>
+                    <p className="mt-2 text-xs leading-relaxed text-slate-600">{cap.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -238,7 +248,7 @@ function ProcessSection() {
   const lineScale = useTransform(scrollYProgress, [0.1, 0.7], [0, 1]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-[#f8fafc] py-28">
+    <section ref={ref} className="relative overflow-hidden bg-secondary py-28">
       <div className="enterprise-grid absolute inset-0" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -278,9 +288,9 @@ function ProcessSection() {
               <motion.div key={item.step} variants={fadeUp} custom={i} className="relative pt-16">
                 <motion.div
                   whileHover={{ scale: 1.08 }}
-                  className="absolute left-0 top-0 flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-cyan-500/30 bg-white shadow-lg shadow-cyan-500/10"
+                  className="absolute left-0 top-0 flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-cyan-500/30 bg-card shadow-lg shadow-cyan-500/10 fiber-glow"
                 >
-                  <span className="display-font text-lg font-bold text-cyan-600">{item.step}</span>
+                  <span className="display-font text-lg font-bold text-accent">{item.step}</span>
                 </motion.div>
                 <h3 className="display-font text-xl font-bold text-foreground">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
@@ -301,8 +311,8 @@ function ProcessSection() {
               {i < steps.length - 1 && (
                 <div className="absolute left-7 top-16 bottom-0 w-px bg-border" />
               )}
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-cyan-500/30 bg-white shadow-md">
-                <span className="display-font font-bold text-cyan-600">{item.step}</span>
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-cyan-500/30 bg-card shadow-md">
+                <span className="display-font font-bold text-accent">{item.step}</span>
               </div>
               <div className="pt-2">
                 <h3 className="display-font text-lg font-bold">{item.title}</h3>
@@ -320,7 +330,7 @@ function FeaturedSection({ products }: { products: Product[] }) {
   const [hero, ...rest] = products;
 
   return (
-    <section className="relative overflow-hidden bg-white py-28">
+    <section className="relative overflow-hidden bg-background py-28">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

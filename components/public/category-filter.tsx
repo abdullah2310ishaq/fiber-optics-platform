@@ -32,8 +32,8 @@ export function CategoryFilter({
             "shrink-0 rounded-full px-4 py-2",
             compact ? "text-xs px-3 py-1.5" : "",
             active
-              ? "bg-slate-900 text-white shadow-md shadow-slate-900/20"
-              : "border border-border bg-white text-muted-foreground hover:border-cyan-500/40 hover:text-foreground"
+              ? "bg-accent text-accent-foreground shadow-md shadow-cyan-500/20"
+              : "border border-border bg-card text-muted-foreground hover:border-cyan-500/40 hover:text-foreground"
           )
     );
 

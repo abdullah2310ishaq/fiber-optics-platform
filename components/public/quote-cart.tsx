@@ -54,14 +54,22 @@ export function QuoteCartList() {
 
   return (
     <div className="space-y-4">
-      {items.map((item) => (
+      {items.map((item, index) => (
         <div
           key={item.productId}
           className="flex flex-col gap-4 rounded-xl border border-border bg-card p-4 shadow-sm sm:flex-row sm:items-start"
         >
           <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-muted">
             {item.image ? (
-              <Image src={item.image} alt={item.name} fill className="object-cover" />
+              <Image
+                src={item.image}
+                alt={item.name}
+                fill
+                sizes="80px"
+                priority={index === 0}
+                loading={index === 0 ? "eager" : "lazy"}
+                className="object-cover"
+              />
             ) : null}
           </div>
           <div className="flex-1 space-y-3">

@@ -8,7 +8,7 @@ interface PageHeaderProps {
   dark?: boolean;
 }
 
-export function PageHeader({ eyebrow, title, description, className, dark }: PageHeaderProps) {
+export function PageHeader({ eyebrow, title, description, className, dark = true }: PageHeaderProps) {
   return (
     <div
       className={cn(
@@ -19,14 +19,14 @@ export function PageHeader({ eyebrow, title, description, className, dark }: Pag
     >
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         {eyebrow && (
-          <p className={cn("section-label", dark && "text-blue-300")}>{eyebrow}</p>
+          <p className={cn("section-label", dark && "text-cyan-400")}>{eyebrow}</p>
         )}
-        <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
+        <h1 className="display-font mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
         {description && (
           <p
             className={cn(
               "mt-3 max-w-2xl text-base leading-relaxed",
-              dark ? "text-blue-100/80" : "text-muted-foreground"
+              dark ? "text-secondary" : "text-muted-foreground"
             )}
           >
             {description}
@@ -47,7 +47,7 @@ export function SectionHeading({ title, description, action }: SectionHeadingPro
   return (
     <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight text-foreground">{title}</h2>
+        <h2 className="display-font text-2xl font-bold tracking-tight text-foreground">{title}</h2>
         {description && (
           <p className="mt-2 text-sm text-muted-foreground">{description}</p>
         )}

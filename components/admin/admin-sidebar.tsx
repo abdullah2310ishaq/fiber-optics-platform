@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
+  Bell,
   ExternalLink,
   LayoutDashboard,
   LogOut,
@@ -11,6 +12,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAdminNotifications } from "@/components/admin/admin-notification-provider";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -18,11 +20,13 @@ const navItems = [
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/rfqs", label: "RFQs", icon: FileText },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
+  { href: "/admin/notifications", label: "Notifications", icon: Bell },
 ];
 
 export function AdminSidebar({ adminUsername }: { adminUsername: string }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { unreadCount } = useAdminNotifications();
 
   async function handleLogout() {
     await fetch("/api/auth/session", { method: "DELETE" });
@@ -31,23 +35,13 @@ export function AdminSidebar({ adminUsername }: { adminUsername: string }) {
   }
 
   return (
-    <aside className="flex w-[260px] shrink-0 flex-col border-r border-slate-800/80 bg-[#0b1120]">
-      <div className="border-b border-slate-800/80 p-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-xs font-bold text-white">
-            FO
-          </div>
-          <div>
-            <p className="text-sm font-bold text-white">Control Center</p>
-            <p className="text-[10px] uppercase tracking-widest text-slate-500">Admin ERP</p>
-          </div>
-        </div>
+    <aside className="flex w-56 shrink-0 flex-col border-r border-slate-800 bg-slate-950">
+      <div className="border-b border-slate-800 px-4 py-5">
+        <p className="text-base font-bold text-white">Admin</p>
+        <p className="text-xs text-slate-500">Fiber Optics</p>
       </div>
 
       <nav className="flex-1 space-y-1 p-3">
-        <p className="px-3 py-2 text-[10px] font-semibold uppercase tracking-widest text-slate-600">
-          Operations
-        </p>
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -56,47 +50,44 @@ export function AdminSidebar({ adminUsername }: { adminUsername: string }) {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
+                "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                 isActive
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
-                  : "text-slate-400 hover:bg-slate-800/80 hover:text-white"
+                  ? "bg-blue-600 text-white"
+                  : "text-slate-400 hover:bg-slate-900 hover:text-white"
               )}
             >
-              <Icon className="h-4 w-4" />
-              {item.label}
+              <Icon className="h-4 w-4 shrink-0" />
+              <span className="flex-1">{item.label}</span>
+              {item.href === "/admin/notifications" && unreadCount > 0 && (
+                <span className="rounded-full bg-blue-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </span>
+              )}
             </Link>
           );
         })}
       </nav>
 
-      <div className="border-t border-slate-800/80 p-4 space-y-2">
+      <div className="space-y-2 border-t border-slate-800 p-3">
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-slate-500 hover:bg-slate-800/50 hover:text-slate-300"
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-slate-500 hover:bg-slate-900 hover:text-slate-300"
         >
           <ExternalLink className="h-3.5 w-3.5" />
-          View Public Site
+          View site
         </Link>
-        <p className="px-3 text-[11px] text-slate-600">Session: {adminUsername}</p>
+        <p className="truncate px-3 text-[11px] text-slate-600">{adminUsername}</p>
         <Button
           variant="ghost"
           size="sm"
-          className="w-full justify-start text-slate-400 hover:bg-slate-800 hover:text-white"
+          className="w-full justify-start text-slate-400 hover:bg-slate-900 hover:text-white"
           onClick={handleLogout}
         >
           <LogOut className="mr-2 h-4 w-4" />
-          Sign Out
+          Sign out
         </Button>
       </div>
     </aside>
-  );
-}
-
-export function AdminTopBar({ title }: { title?: string }) {
-  return (
-    <header className="sticky top-0 z-10 flex h-14 items-center border-b border-slate-800/80 bg-[#0f172a]/90 px-6 backdrop-blur-md">
-      <p className="text-sm font-medium text-slate-300">{title ?? "Admin Panel"}</p>
-    </header>
   );
 }

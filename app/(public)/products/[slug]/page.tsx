@@ -49,7 +49,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               {product.isRfqOnly && <Badge variant="accent">RFQ Available</Badge>}
             </div>
 
-            <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground lg:text-4xl">
+            <h1 className="display-font mt-4 text-3xl font-bold tracking-tight text-foreground lg:text-4xl">
               {product.name}
             </h1>
 
@@ -134,7 +134,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
         {/* Full specs table */}
         <div className="mt-16">
-          <h2 className="mb-6 text-xl font-bold text-foreground">Technical Specifications</h2>
+          <h2 className="display-font mb-6 text-xl font-bold text-foreground">Technical Specifications</h2>
           <SpecTable specs={product.specs} />
         </div>
       </div>
