@@ -8,6 +8,7 @@ interface CategoryFilterProps {
   selectedId?: string;
   onSelect: (categoryId?: string) => void;
   vertical?: boolean;
+  compact?: boolean;
 }
 
 export function CategoryFilter({
@@ -15,22 +16,35 @@ export function CategoryFilter({
   selectedId,
   onSelect,
   vertical,
+  compact,
 }: CategoryFilterProps) {
   const btnClass = (active: boolean) =>
     cn(
-      "rounded-lg text-sm font-medium transition-all",
-      vertical ? "w-full px-3 py-2.5 text-left" : "rounded-full px-4 py-1.5",
-      active
-        ? "bg-primary text-primary-foreground shadow-sm"
-        : vertical
-          ? "text-muted-foreground hover:bg-muted hover:text-foreground"
-          : "border border-border bg-card text-muted-foreground hover:border-accent/50"
+      "text-sm font-medium transition-all duration-200",
+      vertical
+        ? cn(
+            "w-full rounded-xl px-4 py-2.5 text-left",
+            active
+              ? "bg-cyan-500/15 text-cyan-700 ring-1 ring-cyan-500/30 dark:text-cyan-300"
+              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+          )
+        : cn(
+            "shrink-0 rounded-full px-4 py-2",
+            compact ? "text-xs px-3 py-1.5" : "",
+            active
+              ? "bg-slate-900 text-white shadow-md shadow-slate-900/20"
+              : "border border-border bg-white text-muted-foreground hover:border-cyan-500/40 hover:text-foreground"
+          )
     );
 
+  const wrapperClass = vertical
+    ? "space-y-1"
+    : cn("flex gap-2", compact ? "flex-wrap" : "overflow-x-auto pb-1 scrollbar-none");
+
   return (
-    <div className={cn(vertical ? "space-y-1" : "flex flex-wrap gap-2")}>
+    <div className={wrapperClass}>
       <button type="button" onClick={() => onSelect(undefined)} className={btnClass(!selectedId)}>
-        All Categories
+        All
       </button>
       {categories.map((category) => (
         <button
