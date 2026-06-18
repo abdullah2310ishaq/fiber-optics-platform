@@ -2,21 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import {
-  ArrowRightIcon,
-  CheckBadgeIcon,
-  DispatchIcon,
-  DualFlowIcon,
-  FastResponseIcon,
-  FiberCableIcon,
-  LifecycleIcon,
-  QuotationIcon,
-  RfqDocumentIcon,
-  ShieldWorkflowIcon,
-  SpecSheetIcon,
-} from "@/components/icons/fiber-icons";
+  ArrowRight,
+  Box,
+  Clock,
+  Globe2,
+  Layers,
+  LineChart,
+  Package,
+  Sparkles,
+  Truck,
+  Zap,
+} from "lucide-react";
 import { ProductCard } from "@/components/public/product-card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -25,299 +23,281 @@ import type { Product } from "@/types/product";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 48 },
+  hidden: { opacity: 0, y: 32 },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, delay: i * 0.1, ease },
+    transition: { duration: 0.65, delay: i * 0.08, ease },
   }),
 };
 
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
-const trustItems = [
-  { icon: ShieldWorkflowIcon, text: "Enterprise RFQ Workflow" },
-  { icon: SpecSheetIcon, text: "Technical Spec Sheets" },
-  { icon: QuotationIcon, text: "Quotation Management" },
-  { icon: DispatchIcon, text: "Dispatch Tracking" },
+const stats = [
+  { value: "500+", label: "SKUs", icon: Package, color: "text-amber-400" },
+  { value: "24h", label: "RFQ Turnaround", icon: Clock, color: "text-violet-400" },
+  { value: "50+", label: "Countries", icon: Globe2, color: "text-emerald-400" },
+  { value: "Live", label: "Order Tracking", icon: Truck, color: "text-sky-400" },
 ];
 
-const capabilities = [
+const bentoCards = [
   {
-    icon: DualFlowIcon,
+    title: "Deep Technical Catalog",
+    desc: "Full specs on every SKU — fiber type, connector, insertion loss, core count. Built for engineers.",
+    tags: ["OS2 / OM4", "PLC & ODF", "FTTH Ready"],
+    icon: Layers,
+    className: "lg:col-span-2 lg:row-span-2",
+    gradient: "from-indigo-600/20 via-violet-600/10 to-transparent",
+    iconBg: "bg-indigo-500",
+  },
+  {
     title: "Dual Commerce Flow",
-    desc: "Separate quotation pipeline for bulk RFQ and cart checkout with full shipping capture.",
-    accent: "from-violet-500/20 to-fuchsia-500/10",
+    desc: "RFQ for bulk quotes. Cart for direct purchase with shipping.",
+    icon: Box,
+    className: "lg:col-span-1",
+    gradient: "from-amber-500/15 to-transparent",
+    iconBg: "bg-amber-500",
   },
   {
-    icon: LifecycleIcon,
     title: "Lifecycle Visibility",
-    desc: "Track orders from pending through dispatch, in-transit, and delivery in real time.",
-    accent: "from-cyan-500/20 to-blue-500/10",
+    desc: "Pending → packed → dispatched → delivered. Real-time updates.",
+    icon: LineChart,
+    className: "lg:col-span-1",
+    gradient: "from-emerald-500/15 to-transparent",
+    iconBg: "bg-emerald-500",
   },
   {
-    icon: FastResponseIcon,
     title: "24h RFQ Response",
-    desc: "Submit your bill of materials and receive competitive pricing within one business day.",
-    accent: "from-amber-500/20 to-orange-500/10",
+    desc: "Submit your BOM. Competitive pricing within one business day.",
+    icon: Zap,
+    className: "lg:col-span-2",
+    gradient: "from-rose-500/15 via-fuchsia-500/10 to-transparent",
+    iconBg: "bg-rose-500",
   },
-];
-
-const catalogTags = [
-  "OS2 / OM4 / OM5",
-  "PLC Splitters & ODFs",
-  "Patch Cords & Trunks",
-  "FTTH Ready",
 ];
 
 const steps = [
-  { step: "01", title: "Browse", desc: "Filter by category, specs, and fiber type." },
-  { step: "02", title: "Quote or Order", desc: "Add to RFQ for bulk pricing or cart for direct purchase." },
-  { step: "03", title: "Confirm", desc: "Review specs, quantities, and shipping details." },
-  { step: "04", title: "Track", desc: "Monitor dispatch and delivery status live." },
+  {
+    num: "01",
+    title: "Browse catalog",
+    desc: "Filter by category, fiber type, and technical specs.",
+    color: "border-violet-500/40 bg-violet-500/10 text-violet-300",
+  },
+  {
+    num: "02",
+    title: "Quote or order",
+    desc: "RFQ for enterprise pricing or cart for immediate checkout.",
+    color: "border-fuchsia-500/40 bg-fuchsia-500/10 text-fuchsia-300",
+  },
+  {
+    num: "03",
+    title: "Confirm details",
+    desc: "Review quantities, specs, and shipping information.",
+    color: "border-sky-500/40 bg-sky-500/10 text-sky-300",
+  },
+  {
+    num: "04",
+    title: "Track delivery",
+    desc: "Monitor dispatch and delivery status in real time.",
+    color: "border-emerald-500/40 bg-emerald-500/10 text-emerald-300",
+  },
 ];
 
-function SectionEyebrow({ children }: { children: React.ReactNode }) {
+function StatsBar() {
   return (
-    <motion.span
-      variants={fadeUp}
-      className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-accent"
-    >
-      <span className="h-px w-8 bg-accent/60" />
-      {children}
-    </motion.span>
-  );
-}
-
-function TrustMarquee() {
-  const items = [...trustItems, ...trustItems];
-
-  return (
-    <section className="relative overflow-hidden border-b border-border bg-background py-4">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
-      <div className="marquee-track flex w-max gap-12 px-6">
-        {items.map(({ icon: Icon, text }, i) => (
-          <div
-            key={`${text}-${i}`}
-            className="flex shrink-0 items-center gap-3 text-sm font-medium text-slate-300"
+    <section className="border-y border-white/10 bg-[#0c0a09]">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-white/10 lg:grid-cols-4">
+        {stats.map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.08, duration: 0.5, ease }}
+            className="flex flex-col items-center gap-2 px-6 py-8 text-center sm:flex-row sm:justify-center sm:gap-4 sm:text-left"
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-cyan-500/30 bg-cyan-500/10">
-              <Icon className="text-cyan-400" size={16} />
-            </span>
-            {text}
-          </div>
+            <stat.icon className={cn("h-5 w-5 shrink-0", stat.color)} />
+            <div>
+              <p className="home-label text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                {stat.value}
+              </p>
+              <p className="home-label text-[11px] font-medium uppercase tracking-widest text-stone-500">
+                {stat.label}
+              </p>
+            </div>
+          </motion.div>
         ))}
       </div>
     </section>
   );
 }
 
-function WhySection() {
+function PlatformSection() {
   return (
-    <section className="relative overflow-hidden bg-[#f1f5f9] py-28 text-slate-900">
-      <div className="enterprise-grid absolute inset-0 opacity-60" />
-      <div className="absolute -left-32 top-20 h-96 w-96 rounded-full bg-cyan-500/10 blur-[120px]" />
-      <div className="absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-teal-500/10 blur-[100px]" />
+    <section className="relative overflow-hidden bg-[#faf7f2] py-24 text-stone-900 lg:py-32">
+      <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-indigo-200/40 blur-[100px]" />
+      <div className="absolute bottom-0 left-0 h-72 w-72 rounded-full bg-amber-200/50 blur-[80px]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-16 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={stagger}
-            className="lg:sticky lg:top-28 lg:self-start"
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={stagger}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <motion.p
+            variants={fadeUp}
+            className="home-label text-xs font-semibold uppercase tracking-[0.3em] text-indigo-600"
           >
-            <motion.span
-              variants={fadeUp}
-              className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-cyan-700"
-            >
-              <span className="h-px w-8 bg-cyan-600/60" />
-              Why us
-            </motion.span>
-            <motion.h2
-              variants={fadeUp}
-              custom={1}
-              className="display-font mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl"
-            >
-              Built for
-              <br />
-              <span className="bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent">
-                serious
-              </span>{" "}
-              procurement
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              custom={2}
-              className="mt-6 max-w-md text-base leading-relaxed text-slate-600"
-            >
-              Not a retail store — a structured industrial sales infrastructure
-              designed for telecom teams who need precision, speed, and visibility.
-            </motion.p>
-            <motion.div variants={fadeUp} custom={3} className="mt-10 hidden lg:block">
-              <div className="h-px w-24 bg-gradient-to-r from-cyan-600 to-transparent" />
-              <p className="mt-4 font-mono text-xs uppercase tracking-widest text-slate-500">
-                Trusted by ISPs · Contractors · Data Centers
-              </p>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={stagger}
-            className="space-y-5"
+            Platform
+          </motion.p>
+          <motion.h2
+            variants={fadeUp}
+            custom={1}
+            className="mt-4 text-4xl font-bold leading-tight tracking-tight text-stone-900 sm:text-5xl"
           >
-            <motion.div
-              variants={fadeUp}
-              className="group relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-8 shadow-sm sm:p-10"
-            >
-              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-cyan-500/10 blur-3xl transition-all duration-700 group-hover:bg-cyan-500/15" />
-              <div className="relative flex flex-col gap-6 sm:flex-row sm:items-start">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-lg shadow-cyan-500/20">
-                  <FiberCableIcon className="text-white" size={28} />
-                </div>
-                <div>
-                  <h3 className="display-font text-2xl font-bold text-slate-900">
-                    Deep Technical Catalog
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                    Every component ships with full specifications — fiber type,
-                    connector, insertion loss, distance rating, and core count.
-                    Built for engineers who need facts, not marketing fluff.
-                  </p>
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {catalogTags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700"
-                      >
-                        <CheckBadgeIcon className="text-cyan-600" size={14} />
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+            Built for{" "}
+            <span className="home-serif text-indigo-700">serious procurement</span>
+          </motion.h2>
+          <motion.p variants={fadeUp} custom={2} className="mt-5 text-lg leading-relaxed text-stone-600">
+            Not a retail store — industrial sales infrastructure for telecom teams
+            who need precision, speed, and visibility.
+          </motion.p>
+          <motion.p
+            variants={fadeUp}
+            custom={3}
+            className="home-label mt-4 text-xs font-medium uppercase tracking-widest text-stone-400"
+          >
+            ISPs · Contractors · Data Centers
+          </motion.p>
+        </motion.div>
 
-            <div className="grid gap-5 sm:grid-cols-3">
-              {capabilities.map((cap, i) => (
-                <motion.div
-                  key={cap.title}
-                  variants={fadeUp}
-                  custom={i}
-                  whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm"
-                >
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={stagger}
+          className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2"
+        >
+          {bentoCards.map((card, i) => {
+            const Icon = card.icon;
+            return (
+              <motion.article
+                key={card.title}
+                variants={fadeUp}
+                custom={i}
+                whileHover={{ y: -4 }}
+                className={cn(
+                  "group relative overflow-hidden rounded-3xl border border-stone-200/80 bg-white p-6 shadow-sm transition-shadow hover:shadow-xl hover:shadow-indigo-500/5",
+                  card.className
+                )}
+              >
+                <div
+                  className={cn(
+                    "pointer-events-none absolute inset-0 bg-gradient-to-br opacity-60",
+                    card.gradient
+                  )}
+                />
+                <div className="relative">
                   <div
                     className={cn(
-                      "absolute inset-0 bg-gradient-to-br opacity-0 transition-opacity duration-500 group-hover:opacity-100",
-                      cap.accent
+                      "flex h-11 w-11 items-center justify-center rounded-2xl text-white shadow-lg",
+                      card.iconBg
                     )}
-                  />
-                  <div className="relative">
-                    <cap.icon className="text-cyan-600" size={24} />
-                    <h3 className="display-font mt-4 text-lg font-bold leading-snug text-slate-900">
-                      {cap.title}
-                    </h3>
-                    <p className="mt-2 text-xs leading-relaxed text-slate-600">{cap.desc}</p>
+                  >
+                    <Icon className="h-5 w-5" />
                   </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
+                  <h3 className="home-label mt-5 text-lg font-bold text-stone-900">{card.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-stone-600">{card.desc}</p>
+                  {card.tags && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {card.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="home-label rounded-full bg-stone-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-stone-600"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.article>
+            );
+          })}
+        </motion.div>
       </div>
     </section>
   );
 }
 
-function ProcessSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const lineScale = useTransform(scrollYProgress, [0.1, 0.7], [0, 1]);
-
+function WorkflowSection() {
   return (
-    <section ref={ref} className="relative overflow-hidden bg-secondary py-28">
-      <div className="enterprise-grid absolute inset-0" />
+    <section className="relative overflow-hidden bg-[#1e1b4b] py-24 lg:py-32">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.15),transparent_55%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(56,189,248,0.08),transparent_50%)]" />
+
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={stagger}
-          className="mx-auto max-w-2xl text-center"
-        >
-          <SectionEyebrow>Workflow</SectionEyebrow>
-          <motion.h2
-            variants={fadeUp}
-            custom={1}
-            className="display-font mt-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl"
-          >
-            From catalog to delivery
-          </motion.h2>
-          <motion.p variants={fadeUp} custom={2} className="mt-4 text-muted-foreground">
-            A streamlined procurement workflow in four steps.
-          </motion.p>
-        </motion.div>
-
-        <div className="relative mt-20 hidden lg:block">
-          <div className="absolute left-0 right-0 top-8 h-px bg-border" />
-          <motion.div
-            style={{ scaleX: lineScale, transformOrigin: "left" }}
-            className="absolute left-0 right-0 top-8 h-px bg-gradient-to-r from-cyan-500 via-teal-400 to-cyan-500"
-          />
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={stagger}
-            className="grid grid-cols-4 gap-6"
-          >
-            {steps.map((item, i) => (
-              <motion.div key={item.step} variants={fadeUp} custom={i} className="relative pt-16">
-                <motion.div
-                  whileHover={{ scale: 1.08 }}
-                  className="absolute left-0 top-0 flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-cyan-500/30 bg-card shadow-lg shadow-cyan-500/10 fiber-glow"
-                >
-                  <span className="display-font text-lg font-bold text-accent">{item.step}</span>
-                </motion.div>
-                <h3 className="display-font text-xl font-bold text-foreground">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={stagger}
-          className="mt-12 space-y-0 lg:hidden"
+          className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"
         >
-          {steps.map((item, i) => (
-            <motion.div key={item.step} variants={fadeUp} custom={i} className="relative flex gap-6 pb-10">
-              {i < steps.length - 1 && (
-                <div className="absolute left-7 top-16 bottom-0 w-px bg-border" />
-              )}
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-cyan-500/30 bg-card shadow-md">
-                <span className="display-font font-bold text-accent">{item.step}</span>
-              </div>
-              <div className="pt-2">
-                <h3 className="display-font text-lg font-bold">{item.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
-              </div>
+          <div>
+            <motion.p
+              variants={fadeUp}
+              className="home-label text-xs font-semibold uppercase tracking-[0.3em] text-violet-300"
+            >
+              How it works
+            </motion.p>
+            <motion.h2
+              variants={fadeUp}
+              custom={1}
+              className="mt-3 text-3xl font-bold text-white sm:text-4xl lg:text-5xl"
+            >
+              Catalog to{" "}
+              <span className="home-serif text-violet-200">delivery</span>
+            </motion.h2>
+          </div>
+          <motion.p
+            variants={fadeUp}
+            custom={2}
+            className="max-w-sm text-sm leading-relaxed text-violet-200/70 lg:text-right"
+          >
+            Four steps from discovery to doorstep — built for procurement teams.
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={stagger}
+          className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {steps.map((step, i) => (
+            <motion.div
+              key={step.num}
+              variants={fadeUp}
+              custom={i}
+              className="relative rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm"
+            >
+              <span
+                className={cn(
+                  "home-label inline-flex rounded-xl border px-3 py-1.5 text-sm font-bold",
+                  step.color
+                )}
+              >
+                {step.num}
+              </span>
+              <h3 className="home-label mt-4 text-lg font-bold text-white">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-violet-200/60">{step.desc}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -326,73 +306,82 @@ function ProcessSection() {
   );
 }
 
-function FeaturedSection({ products }: { products: Product[] }) {
-  const [hero, ...rest] = products;
+function ProductsShowcase({ products }: { products: Product[] }) {
+  const [spotlight, ...rest] = products;
 
   return (
-    <section className="relative overflow-hidden bg-background py-28">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+    <section className="relative overflow-hidden bg-[#020617] py-24 lg:py-32">
+      <div className="absolute left-1/2 top-0 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
+      <div className="absolute -left-40 top-1/3 h-80 w-80 rounded-full bg-emerald-500/10 blur-[100px]" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true }}
           variants={stagger}
-          className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
+          className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
         >
-          <div className="max-w-xl">
-            <SectionEyebrow>Catalog</SectionEyebrow>
+          <div>
+            <motion.div variants={fadeUp} className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-emerald-400" />
+              <p className="home-label text-xs font-semibold uppercase tracking-[0.3em] text-emerald-400">
+                Featured catalog
+              </p>
+            </motion.div>
             <motion.h2
               variants={fadeUp}
               custom={1}
-              className="display-font mt-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl"
+              className="mt-3 text-3xl font-bold text-white sm:text-4xl"
             >
-              Featured
-              <br />
-              Components
+              Components{" "}
+              <span className="home-serif text-emerald-300">in stock</span>
             </motion.h2>
-            <motion.p variants={fadeUp} custom={2} className="mt-4 text-muted-foreground">
-              Industry-standard fiber optic products available for quotation and direct order.
+            <motion.p variants={fadeUp} custom={2} className="mt-3 max-w-md text-stone-400">
+              Industry-standard fiber products — quote in bulk or order directly.
             </motion.p>
           </div>
           <motion.div variants={fadeUp} custom={3}>
-            <Button variant="outline" className="group h-12 px-6" asChild>
+            <Button
+              variant="outline"
+              className="home-label border-emerald-500/30 bg-emerald-500/5 text-emerald-300 hover:bg-emerald-500/15 hover:text-emerald-200"
+              asChild
+            >
               <Link href="/products">
-                View Full Catalog
-                <ArrowRightIcon className="transition-transform group-hover:translate-x-1" size={16} />
+                Full catalog
+                <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </motion.div>
         </motion.div>
 
         {products.length === 0 ? (
-          <div className="mt-14 rounded-2xl border border-dashed border-border p-16 text-center text-muted-foreground">
-            No products found.
+          <div className="mt-14 rounded-2xl border border-dashed border-white/15 py-16 text-center text-stone-500">
+            No products yet.
           </div>
         ) : (
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-40px" }}
+            viewport={{ once: true }}
             variants={stagger}
-            className="mt-14 grid gap-6 lg:grid-cols-12"
+            className="mt-14 grid gap-5 lg:grid-cols-12"
           >
-            {hero && (
+            {spotlight && (
               <motion.div variants={fadeUp} className="lg:col-span-7">
-                <FeaturedHeroCard product={hero} />
+                <SpotlightCard product={spotlight} />
               </motion.div>
             )}
-            <div className="grid gap-6 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
-              {rest.slice(0, 2).map((product, i) => (
-                <motion.div key={product.id} variants={fadeUp} custom={i}>
-                  <ProductCard product={product} variant="elevated" />
+            <div className="grid gap-5 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
+              {rest.slice(0, 2).map((p, i) => (
+                <motion.div key={p.id} variants={fadeUp} custom={i}>
+                  <ProductCard product={p} variant="elevated" />
                 </motion.div>
               ))}
             </div>
-            {rest.slice(2).map((product, i) => (
-              <motion.div key={product.id} variants={fadeUp} custom={i} className="lg:col-span-4">
-                <ProductCard product={product} variant="elevated" />
+            {rest.slice(2, 5).map((p, i) => (
+              <motion.div key={p.id} variants={fadeUp} custom={i} className="lg:col-span-4">
+                <ProductCard product={p} variant="elevated" />
               </motion.div>
             ))}
           </motion.div>
@@ -402,128 +391,118 @@ function FeaturedSection({ products }: { products: Product[] }) {
   );
 }
 
-function FeaturedHeroCard({ product }: { product: Product }) {
+function SpotlightCard({ product }: { product: Product }) {
   const image = product.images[0];
   const hasPrice = product.price != null && product.price > 0;
 
   return (
-    <motion.article
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.3, ease }}
-      className="group relative h-full min-h-[420px] overflow-hidden rounded-3xl border border-border bg-slate-950"
+    <Link
+      href={`/products/${product.slug}`}
+      className="group relative flex h-full min-h-[380px] flex-col overflow-hidden rounded-3xl border border-emerald-500/20 bg-[#0f172a] lg:min-h-[440px]"
     >
-      <Link href={`/products/${product.slug}`} className="flex h-full flex-col lg:flex-row">
-        <div className="relative min-h-[240px] flex-1 overflow-hidden lg:min-h-full">
-          {image ? (
-            <Image
-              src={image}
-              alt={product.name}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center bg-muted text-muted-foreground">
-              No image
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-slate-950/80" />
-        </div>
-
-        <div className="relative flex flex-col justify-center p-8 lg:w-[45%] lg:p-10">
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan-400">
-            {product.brand}
-          </p>
-          <h3 className="display-font mt-3 text-2xl font-bold leading-tight text-white lg:text-3xl">
-            {product.name}
-          </h3>
-          <p className="mt-1 font-mono text-xs text-slate-500">{product.sku}</p>
-          <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-slate-400">
-            {product.description}
-          </p>
-          <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
-            {hasPrice ? (
-              <span className="display-font text-2xl font-bold text-white">
-                ${product.price!.toFixed(2)}
-              </span>
-            ) : (
-              <span className="text-sm font-semibold text-cyan-400">Request Quote</span>
-            )}
-            <span className="flex items-center gap-1 text-sm font-medium text-slate-400 transition-colors group-hover:text-cyan-400">
-              View specs
-              <ArrowRightIcon className="transition-transform group-hover:translate-x-1" size={16} />
+      <div className="relative min-h-[220px] flex-1 overflow-hidden">
+        {image ? (
+          <Image
+            src={image}
+            alt={product.name}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="(max-width: 1024px) 100vw, 55vw"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center text-stone-500">No image</div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/40 to-transparent" />
+        <span className="home-label absolute left-4 top-4 rounded-full bg-emerald-500/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300 ring-1 ring-emerald-500/30">
+          Spotlight
+        </span>
+      </div>
+      <div className="relative p-6 lg:p-8">
+        <p className="home-label text-[10px] font-semibold uppercase tracking-widest text-emerald-400/80">
+          {product.brand}
+        </p>
+        <h3 className="home-label mt-2 text-xl font-bold text-white lg:text-2xl">{product.name}</h3>
+        <p className="mt-1 font-mono text-xs text-stone-500">{product.sku}</p>
+        <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-5">
+          {hasPrice ? (
+            <span className="home-label text-2xl font-bold text-white">
+              ${product.price!.toFixed(2)}
             </span>
-          </div>
+          ) : (
+            <span className="home-label text-sm font-semibold text-emerald-400">Request quote</span>
+          )}
+          <span className="flex items-center gap-1 text-sm text-stone-400 transition-colors group-hover:text-emerald-400">
+            View specs
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </span>
         </div>
-      </Link>
-    </motion.article>
+      </div>
+    </Link>
   );
 }
 
-function CtaSection() {
+function DualCtaSection() {
   return (
-    <section className="relative overflow-hidden py-28">
-      <div className="cta-gradient absolute inset-0" />
-      <div className="dot-pattern absolute inset-0 opacity-30" />
-
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={stagger}
-        className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8"
-      >
+    <section className="py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          variants={fadeUp}
-          className="mx-auto mb-8 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={stagger}
+          className="grid gap-5 lg:grid-cols-2"
         >
-          <RfqDocumentIcon className="text-cyan-400" size={28} />
-        </motion.div>
-        <motion.h2
-          variants={fadeUp}
-          custom={1}
-          className="display-font text-4xl font-bold tracking-tight text-white sm:text-5xl"
-        >
-          Ready to build your RFQ?
-        </motion.h2>
-        <motion.p variants={fadeUp} custom={2} className="mx-auto mt-5 max-w-lg text-slate-400">
-          Add products to your quotation list or cart. No account required — we
-          respond within 24 hours.
-        </motion.p>
-        <motion.div
-          variants={fadeUp}
-          custom={3}
-          className="mt-10 flex flex-wrap justify-center gap-4"
-        >
-          <Button
-            size="lg"
-            variant="accent"
-            className="h-12 px-8 shadow-lg shadow-cyan-500/25"
-            asChild
+          <motion.div
+            variants={fadeUp}
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-600 to-indigo-800 p-8 sm:p-10"
           >
-            <Link href="/rfq">
-              Start Quotation
-              <ArrowRightIcon size={16} />
-            </Link>
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="h-12 border-white/20 bg-white/5 px-8 text-white hover:bg-white/10"
-            asChild
-          >
-            <Link href="/products">Browse Products</Link>
-          </Button>
-        </motion.div>
-      </motion.div>
+            <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
+            <p className="home-label text-xs font-semibold uppercase tracking-widest text-violet-200">
+              Bulk procurement
+            </p>
+            <h3 className="mt-3 text-2xl font-bold text-white sm:text-3xl">
+              Start your <span className="home-serif">RFQ</span>
+            </h3>
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-violet-100/80">
+              Add products to your quote list. No account needed — we respond within 24 hours.
+            </p>
+            <Button size="lg" className="home-label mt-8 bg-white text-indigo-900 hover:bg-violet-50" asChild>
+              <Link href="/rfq">
+                Request quotation
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2, ease }}
-        className="pointer-events-none absolute -bottom-32 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-500/20 blur-[100px]"
-      />
+          <motion.div
+            variants={fadeUp}
+            custom={1}
+            className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#111827] p-8 sm:p-10"
+          >
+            <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-cyan-500/15 blur-2xl" />
+            <p className="home-label text-xs font-semibold uppercase tracking-widest text-cyan-400">
+              Direct purchase
+            </p>
+            <h3 className="mt-3 text-2xl font-bold text-white sm:text-3xl">
+              Browse <span className="home-serif text-cyan-300">catalog</span>
+            </h3>
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-stone-400">
+              Priced items go straight to cart with full shipping capture and order tracking.
+            </p>
+            <Button
+              size="lg"
+              variant="accent"
+              className="home-label mt-8 shadow-lg shadow-cyan-500/20"
+              asChild
+            >
+              <Link href="/products">
+                Explore products
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }
@@ -535,11 +514,11 @@ interface HomeSectionsProps {
 export function HomeSections({ products }: HomeSectionsProps) {
   return (
     <>
-      <TrustMarquee />
-      <WhySection />
-      <ProcessSection />
-      <FeaturedSection products={products} />
-      <CtaSection />
+      <StatsBar />
+      <PlatformSection />
+      <WorkflowSection />
+      <ProductsShowcase products={products} />
+      <DualCtaSection />
     </>
   );
 }

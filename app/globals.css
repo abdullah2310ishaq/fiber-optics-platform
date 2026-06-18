@@ -202,6 +202,15 @@ body {
   font-family: var(--font-heading), system-ui, sans-serif;
 }
 
+.home-serif {
+  font-family: var(--font-home-serif), Georgia, serif;
+  font-style: italic;
+}
+
+.home-label {
+  font-family: var(--font-home-label), system-ui, sans-serif;
+}
+
 .public-site .fiber-glow {
   box-shadow: 0 0 48px rgba(6, 182, 212, 0.12);
 }
