@@ -1,5 +1,6 @@
 import { QueryProvider } from "@/components/providers/query-provider";
 import { CartStoreHydrator } from "@/components/providers/cart-store-hydrator";
+import { FiberChatbot } from "@/components/public/fiber-chatbot";
 import { SiteFooter } from "@/components/public/site-footer";
 import { SiteHeader } from "@/components/public/site-header";
 
@@ -15,6 +16,7 @@ export default function PublicLayout({
         <SiteHeader />
         <main className="flex-1 pt-16 lg:pt-[4.5rem]">{children}</main>
         <SiteFooter />
+        <FiberChatbot />
       </div>
     </QueryProvider>
   );

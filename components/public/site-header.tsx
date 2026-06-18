@@ -10,7 +10,6 @@ import {
   QuotationIcon,
 } from "@/components/icons/fiber-icons";
 import { Button } from "@/components/ui/button";
-import { WHATSAPP_URL } from "@/lib/site/contact";
 import { cn } from "@/lib/utils";
 import { useMounted } from "@/hooks/use-mounted";
 import { useQuoteCart } from "@/store/quote-cart";
@@ -26,7 +25,7 @@ const navLinks: NavLink[] = [
   { href: "/rfq", label: "Quotation" },
   { href: "/cart", label: "Cart" },
   { href: "/track-order", label: "Track Order" },
-  { href: WHATSAPP_URL, label: "Contact Us", external: true },
+  { href: "/contact", label: "Contact Us" },
 ];
 
 function isNavActive(pathname: string, href: string) {

@@ -32,7 +32,7 @@ const productLinks = [
 
 const companyLinks = [
   { href: "/products", label: "About" },
-  { href: WHATSAPP_URL, label: "Contact Us", external: true },
+  { href: "/contact", label: "Contact Us" },
   { href: "/rfq", label: "RFQ" },
   { href: "/track-order", label: "Tracking" },
 ];
