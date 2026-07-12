@@ -1,11 +1,11 @@
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/app/firebase/client";
+import { getDb } from "@/app/firebase/firestore";
 
 export async function getAdminStats() {
   const [productsSnap, rfqsSnap, ordersSnap] = await Promise.all([
-    getDocs(collection(db, "products")),
-    getDocs(collection(db, "rfqs")),
-    getDocs(collection(db, "orders")),
+    getDocs(collection(getDb(), "products")),
+    getDocs(collection(getDb(), "rfqs")),
+    getDocs(collection(getDb(), "orders")),
   ]);
 
   const rfqs = rfqsSnap.docs.map((d) => d.data());

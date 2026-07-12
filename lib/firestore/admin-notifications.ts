@@ -11,7 +11,7 @@ import {
   type DocumentData,
   type Unsubscribe,
 } from "firebase/firestore";
-import { db } from "@/app/firebase/client";
+import { getDb } from "@/app/firebase/firestore";
 import type {
   AdminNotification,
   CreateAdminNotificationInput,
@@ -40,7 +40,7 @@ function mapNotification(id: string, data: DocumentData): AdminNotification {
 export async function createAdminNotification(
   input: CreateAdminNotificationInput
 ): Promise<string> {
-  const docRef = await addDoc(collection(db, "admin_notifications"), {
+  const docRef = await addDoc(collection(getDb(), "admin_notifications"), {
     ...input,
     read: false,
     createdAt: serverTimestamp(),
@@ -53,7 +53,7 @@ export function subscribeAdminNotifications(
   onError?: (error: Error) => void
 ): Unsubscribe {
   const q = query(
-    collection(db, "admin_notifications"),
+    collection(getDb(), "admin_notifications"),
     orderBy("createdAt", "desc")
   );
 
@@ -67,18 +67,18 @@ export function subscribeAdminNotifications(
 }
 
 export async function markNotificationRead(id: string): Promise<void> {
-  await updateDoc(doc(db, "admin_notifications", id), { read: true });
+  await updateDoc(doc(getDb(), "admin_notifications", id), { read: true });
 }
 
 export async function markNotificationUnread(id: string): Promise<void> {
-  await updateDoc(doc(db, "admin_notifications", id), { read: false });
+  await updateDoc(doc(getDb(), "admin_notifications", id), { read: false });
 }
 
 export async function markAllNotificationsRead(ids: string[]): Promise<void> {
   if (ids.length === 0) return;
-  const batch = writeBatch(db);
+  const batch = writeBatch(getDb());
   for (const id of ids) {
-    batch.update(doc(db, "admin_notifications", id), { read: true });
+    batch.update(doc(getDb(), "admin_notifications", id), { read: true });
   }
   await batch.commit();
 }

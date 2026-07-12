@@ -392,7 +392,8 @@ function ProductsShowcase({ products }: { products: Product[] }) {
 }
 
 function SpotlightCard({ product }: { product: Product }) {
-  const image = product.images[0];
+  const image = product.images?.[0];
+  const displayName = product.name ?? "Untitled Product";
   const hasPrice = product.price != null && product.price > 0;
 
   return (
@@ -404,7 +405,7 @@ function SpotlightCard({ product }: { product: Product }) {
         {image ? (
           <Image
             src={image}
-            alt={product.name}
+            alt={displayName}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 1024px) 100vw, 55vw"
@@ -418,11 +419,13 @@ function SpotlightCard({ product }: { product: Product }) {
         </span>
       </div>
       <div className="relative p-6 lg:p-8">
-        <p className="home-label text-[10px] font-semibold uppercase tracking-widest text-emerald-400/80">
-          {product.brand}
-        </p>
-        <h3 className="home-label mt-2 text-xl font-bold text-white lg:text-2xl">{product.name}</h3>
-        <p className="mt-1 font-mono text-xs text-stone-500">{product.sku}</p>
+        {product.brand && (
+          <p className="home-label text-[10px] font-semibold uppercase tracking-widest text-emerald-400/80">
+            {product.brand}
+          </p>
+        )}
+        <h3 className="home-label mt-2 text-xl font-bold text-white lg:text-2xl">{displayName}</h3>
+        {product.sku && <p className="mt-1 font-mono text-xs text-stone-500">{product.sku}</p>}
         <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-5">
           {hasPrice ? (
             <span className="home-label text-2xl font-bold text-white">

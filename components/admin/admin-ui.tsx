@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 export function AdminPage({
@@ -38,6 +39,40 @@ export function AdminLoading({ label = "Loading..." }: { label?: string }) {
     <div className="flex flex-col items-center justify-center gap-3 py-16">
       <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
       <p className="text-sm text-slate-400">{label}</p>
+    </div>
+  );
+}
+
+export function AdminLoadingModal({
+  open,
+  message = "Please wait...",
+}: {
+  open: boolean;
+  message?: string;
+}) {
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm"
+      role="alertdialog"
+      aria-modal="true"
+      aria-busy="true"
+      aria-label={message}
+    >
+      <div className="flex flex-col items-center gap-4 rounded-2xl border border-slate-700 bg-slate-900 px-10 py-10 shadow-2xl">
+        <Loader2 className="h-10 w-10 animate-spin text-blue-500" />
+        <p className="text-center text-sm font-medium text-slate-200">{message}</p>
+        <p className="text-center text-xs text-slate-500">Do not close this page</p>
+      </div>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import {
   updateDoc,
   type DocumentData,
 } from "firebase/firestore";
-import { db } from "@/app/firebase/client";
+import { getDb } from "@/app/firebase/firestore";
 import { createAdminNotification } from "@/lib/firestore/admin-notifications";
 import { stripUndefinedDeep } from "@/lib/utils";
 import type { CreateGuestRfqInput, Rfq, RfqStatus } from "@/types/rfq";
@@ -38,7 +38,7 @@ function mapRfq(id: string, data: DocumentData): Rfq {
 
 export async function createRfq(input: CreateGuestRfqInput): Promise<string> {
   const docRef = await addDoc(
-    collection(db, "rfqs"),
+    collection(getDb(), "rfqs"),
     stripUndefinedDeep({
       ...input,
       status: "submitted",
@@ -58,13 +58,13 @@ export async function createRfq(input: CreateGuestRfqInput): Promise<string> {
 
 export async function getAllRfqs(): Promise<Rfq[]> {
   const snapshot = await getDocs(
-    query(collection(db, "rfqs"), orderBy("createdAt", "desc"))
+    query(collection(getDb(), "rfqs"), orderBy("createdAt", "desc"))
   );
   return snapshot.docs.map((docSnap) => mapRfq(docSnap.id, docSnap.data()));
 }
 
 export async function updateRfqStatus(id: string, status: RfqStatus): Promise<void> {
-  await updateDoc(doc(db, "rfqs", id), {
+  await updateDoc(doc(getDb(), "rfqs", id), {
     status,
     updatedAt: serverTimestamp(),
   });

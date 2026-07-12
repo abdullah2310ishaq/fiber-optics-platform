@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Package } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/types/product";
@@ -12,11 +12,8 @@ interface ProductCardProps {
 }
 
 function SpecChips({ product }: { product: Product }) {
-  const chips = [
-    product.specs.fiberType,
-    product.specs.connectorType,
-    product.specs.coreCount,
-  ].filter(Boolean) as string[];
+  const specs = product.specs ?? {};
+  const chips = [specs.fiberType, specs.connectorType, specs.coreCount].filter(Boolean) as string[];
 
   return (
     <div className="mt-auto flex min-h-[22px] flex-wrap gap-1 pt-2">
@@ -36,8 +33,32 @@ function SpecChips({ product }: { product: Product }) {
   );
 }
 
+function ImagePlaceholder({ className }: { className?: string }) {
+  return (
+    <div className={cn("flex h-full flex-col items-center justify-center gap-2 bg-muted text-muted-foreground", className)}>
+      <Package className="h-8 w-8 opacity-40" />
+      <span className="text-xs">No image</span>
+    </div>
+  );
+}
+
+function StockLabel({ status }: { status?: Product["stockStatus"] }) {
+  if (!status) return null;
+  return (
+    <span
+      className={cn(
+        "text-[10px] font-semibold uppercase tracking-wide",
+        status === "in_stock" ? "text-emerald-500" : "text-red-500"
+      )}
+    >
+      {status === "in_stock" ? "In Stock" : "Out of Stock"}
+    </span>
+  );
+}
+
 export function ProductCard({ product, variant = "light", priority = false }: ProductCardProps) {
-  const image = product.images[0];
+  const image = product.images?.[0];
+  const displayName = product.name ?? "Untitled Product";
   const hasPrice = product.price != null && product.price > 0;
   const isCatalog = variant === "catalog";
 
@@ -49,26 +70,29 @@ export function ProductCard({ product, variant = "light", priority = false }: Pr
             {image ? (
               <Image
                 src={image}
-                alt={product.name}
+                alt={displayName}
                 fill
                 priority={priority}
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             ) : (
-              <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-                No image
-              </div>
+              <ImagePlaceholder />
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
-            {product.isRfqOnly && (
-              <div className="absolute left-3 top-3">
+            <div className="absolute left-3 top-3 flex flex-col gap-1">
+              {product.isRfqOnly && (
                 <Badge variant="accent" className="text-[10px] shadow-sm">
                   RFQ
                 </Badge>
-              </div>
-            )}
+              )}
+              {product.stockStatus === "out_of_stock" && (
+                <Badge variant="outline" className="border-red-500/40 bg-black/50 text-[10px] text-red-400">
+                  Out of Stock
+                </Badge>
+              )}
+            </div>
 
             <div className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-card text-foreground opacity-0 shadow-md transition-all duration-300 group-hover:opacity-100">
               <ArrowUpRight className="h-3.5 w-3.5" />
@@ -84,13 +108,16 @@ export function ProductCard({ product, variant = "light", priority = false }: Pr
               ) : (
                 <span />
               )}
+              <StockLabel status={product.stockStatus} />
             </div>
 
             <h3 className="display-font mt-1 line-clamp-2 min-h-[2.5rem] text-sm font-bold leading-snug text-foreground transition-colors group-hover:text-accent sm:text-[0.95rem]">
-              {product.name}
+              {displayName}
             </h3>
 
-            <p className="mt-0.5 truncate font-mono text-[10px] text-slate-400">{product.sku}</p>
+            {product.sku && (
+              <p className="mt-0.5 truncate font-mono text-[10px] text-slate-400">{product.sku}</p>
+            )}
 
             <SpecChips product={product} />
 
@@ -127,16 +154,14 @@ export function ProductCard({ product, variant = "light", priority = false }: Pr
           {image ? (
             <Image
               src={image}
-              alt={product.name}
+              alt={displayName}
               fill
               priority={priority}
               className="object-cover transition-transform duration-500 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, 33vw"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-muted-foreground">
-              No image
-            </div>
+            <ImagePlaceholder />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
           <div className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-card text-accent opacity-0 shadow-lg transition-all group-hover:opacity-100">
@@ -153,20 +178,27 @@ export function ProductCard({ product, variant = "light", priority = false }: Pr
                 </p>
               )}
               <h3 className="mt-1 line-clamp-2 text-base font-semibold leading-snug text-foreground transition-colors group-hover:text-accent">
-                {product.name}
+                {displayName}
               </h3>
             </div>
-            {product.isRfqOnly && (
-              <Badge variant="accent" className="shrink-0 text-[10px]">
-                RFQ
-              </Badge>
-            )}
+            <div className="flex shrink-0 flex-col items-end gap-1">
+              {product.isRfqOnly && (
+                <Badge variant="accent" className="text-[10px]">
+                  RFQ
+                </Badge>
+              )}
+              <StockLabel status={product.stockStatus} />
+            </div>
           </div>
 
-          <p className="mt-2 font-mono text-xs text-muted-foreground">{product.sku}</p>
-          <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-            {product.description}
-          </p>
+          {product.sku && (
+            <p className="mt-2 font-mono text-xs text-muted-foreground">{product.sku}</p>
+          )}
+          {product.description && (
+            <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+              {product.description}
+            </p>
+          )}
 
           <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
             {hasPrice ? (

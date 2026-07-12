@@ -1,4 +1,5 @@
 export type ProductStatus = "active" | "draft" | "archived";
+export type StockStatus = "in_stock" | "out_of_stock";
 
 export interface ProductSpecs {
   fiberType?: string;
@@ -12,19 +13,23 @@ export interface ProductSpecs {
 
 export interface Product {
   id: string;
-  name: string;
   slug: string;
-  sku: string;
-  brand: string;
-  categoryId: string;
+  name?: string;
+  sku?: string;
+  brand?: string;
+  categoryId?: string;
   subcategoryId?: string;
-  description: string;
-  specs: ProductSpecs;
+  description?: string;
+  specs?: ProductSpecs;
   /** [0] = main image (large), [1–3] = gallery thumbnails below */
-  images: string[];
-  isRfqOnly: boolean;
+  images?: string[];
+  isRfqOnly?: boolean;
   price?: number;
-  status: ProductStatus;
+  status?: ProductStatus;
+  pcs?: string;
+  color?: string;
+  stockStatus?: StockStatus;
+  quantity?: number;
   createdAt: Date;
   updatedAt: Date;
 }

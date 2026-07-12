@@ -11,7 +11,7 @@ import {
   where,
   type DocumentData,
 } from "firebase/firestore";
-import { db } from "@/app/firebase/client";
+import { getDb } from "@/app/firebase/firestore";
 import { createAdminNotification } from "@/lib/firestore/admin-notifications";
 import { stripUndefinedDeep } from "@/lib/utils";
 import type {
@@ -62,7 +62,7 @@ function mapOrder(id: string, data: DocumentData): Order {
 
 export async function createDirectOrder(input: CreateDirectOrderInput): Promise<string> {
   const docRef = await addDoc(
-    collection(db, "orders"),
+    collection(getDb(), "orders"),
     stripUndefinedDeep({
       orderType: "direct",
       ...input,
@@ -84,7 +84,7 @@ export async function createDirectOrder(input: CreateDirectOrderInput): Promise<
 
 export async function createOrderFromRfq(input: CreateRfqOrderInput): Promise<string> {
   const docRef = await addDoc(
-    collection(db, "orders"),
+    collection(getDb(), "orders"),
     stripUndefinedDeep({
       orderType: "rfq_converted",
       ...input,
@@ -104,7 +104,7 @@ export async function createOrder(input: CreateRfqOrderInput): Promise<string> {
 
 export async function getAllOrders(): Promise<Order[]> {
   const snapshot = await getDocs(
-    query(collection(db, "orders"), orderBy("createdAt", "desc"))
+    query(collection(getDb(), "orders"), orderBy("createdAt", "desc"))
   );
   return snapshot.docs.map((docSnap) => mapOrder(docSnap.id, docSnap.data()));
 }
@@ -113,7 +113,7 @@ export async function getOrderByIdAndEmail(
   orderId: string,
   email: string
 ): Promise<Order | null> {
-  const docSnap = await getDoc(doc(db, "orders", orderId));
+  const docSnap = await getDoc(doc(getDb(), "orders", orderId));
   if (!docSnap.exists()) return null;
   const order = mapOrder(docSnap.id, docSnap.data());
   if (order.contactEmail.toLowerCase() !== email.trim().toLowerCase()) return null;
@@ -125,13 +125,13 @@ export async function updateOrderStatus(
   status: OrderStatus,
   extra?: { trackingNumber?: string; courier?: string; notes?: string }
 ): Promise<void> {
-  const docSnap = await getDoc(doc(db, "orders", id));
+  const docSnap = await getDoc(doc(getDb(), "orders", id));
   const existing = docSnap.exists() ? docSnap.data() : {};
   const history = Array.isArray(existing.statusHistory) ? [...existing.statusHistory] : [];
   history.push({ status, at: new Date(), note: extra?.notes });
 
   await updateDoc(
-    doc(db, "orders", id),
+    doc(getDb(), "orders", id),
     stripUndefinedDeep({
       status,
       ...extra,
@@ -142,13 +142,13 @@ export async function updateOrderStatus(
 }
 
 export async function getOrderCount(): Promise<number> {
-  const snapshot = await getDocs(collection(db, "orders"));
+  const snapshot = await getDocs(collection(getDb(), "orders"));
   return snapshot.size;
 }
 
 export async function getDirectOrderCount(): Promise<number> {
   const snapshot = await getDocs(
-    query(collection(db, "orders"), where("orderType", "==", "direct"))
+    query(collection(getDb(), "orders"), where("orderType", "==", "direct"))
   );
   return snapshot.size;
 }

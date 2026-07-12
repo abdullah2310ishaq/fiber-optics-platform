@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { Upload, X } from "lucide-react";
+import { Loader2, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
@@ -12,10 +12,20 @@ interface ImageUploaderProps {
   value?: string;
   onChange: (url: string) => void;
   onClear: () => void;
-  required?: boolean;
+  onUploadStart?: () => void;
+  onUploadEnd?: () => void;
+  disabled?: boolean;
 }
 
-export function ImageUploader({ label, value, onChange, onClear, required }: ImageUploaderProps) {
+export function ImageUploader({
+  label,
+  value,
+  onChange,
+  onClear,
+  onUploadStart,
+  onUploadEnd,
+  disabled,
+}: ImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
@@ -23,6 +33,7 @@ export function ImageUploader({ label, value, onChange, onClear, required }: Ima
   async function handleFile(file: File) {
     setError("");
     setUploading(true);
+    onUploadStart?.();
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -40,6 +51,7 @@ export function ImageUploader({ label, value, onChange, onClear, required }: Ima
       setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
       setUploading(false);
+      onUploadEnd?.();
     }
   }
 
@@ -47,7 +59,6 @@ export function ImageUploader({ label, value, onChange, onClear, required }: Ima
     <div className="space-y-2">
       <Label>
         {label}
-        {required && <span className="text-red-400"> *</span>}
       </Label>
 
       {value ? (
@@ -56,7 +67,8 @@ export function ImageUploader({ label, value, onChange, onClear, required }: Ima
           <button
             type="button"
             onClick={onClear}
-            className="absolute right-2 top-2 rounded-full bg-black/60 p-1 text-white hover:bg-black/80"
+            disabled={disabled || uploading}
+            className="absolute right-2 top-2 rounded-full bg-black/60 p-1 text-white hover:bg-black/80 disabled:opacity-50"
           >
             <X className="h-4 w-4" />
           </button>
@@ -65,13 +77,17 @@ export function ImageUploader({ label, value, onChange, onClear, required }: Ima
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          disabled={uploading}
+          disabled={disabled || uploading}
           className={cn(
             "flex aspect-square w-full max-w-[200px] flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-600 bg-slate-800/50 text-slate-400 transition-colors hover:border-blue-500 hover:text-blue-400",
-            uploading && "pointer-events-none opacity-50"
+            (uploading || disabled) && "pointer-events-none opacity-50"
           )}
         >
-          <Upload className="h-6 w-6" />
+          {uploading ? (
+            <Loader2 className="h-6 w-6 animate-spin" />
+          ) : (
+            <Upload className="h-6 w-6" />
+          )}
           <span className="text-xs">{uploading ? "Uploading..." : "Upload to Cloudinary"}</span>
         </button>
       )}

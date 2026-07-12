@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { Package } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const GALLERY_COUNT = 3;
@@ -25,8 +26,9 @@ export function ProductImageGallery({ name, images }: ProductImageGalleryProps) 
 
   if (!main) {
     return (
-      <div className="flex aspect-square items-center justify-center rounded-xl bg-muted text-muted-foreground">
-        No image available
+      <div className="flex aspect-square flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border bg-muted text-muted-foreground">
+        <Package className="h-12 w-12 opacity-40" />
+        <span className="text-sm">No image available</span>
       </div>
     );
   }

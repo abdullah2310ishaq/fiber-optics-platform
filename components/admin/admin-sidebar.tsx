@@ -16,11 +16,11 @@ import { useAdminNotifications } from "@/components/admin/admin-notification-pro
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/products", label: "Products", icon: Package },
-  { href: "/admin/rfqs", label: "RFQs", icon: FileText },
-  { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
-  { href: "/admin/notifications", label: "Notifications", icon: Bell },
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, match: "exact" as const },
+  { href: "/admin/products/list", label: "Products", icon: Package, match: "prefix" as const },
+  { href: "/admin/rfqs", label: "RFQs", icon: FileText, match: "exact" as const },
+  { href: "/admin/orders", label: "Orders", icon: ShoppingCart, match: "exact" as const },
+  { href: "/admin/notifications", label: "Notifications", icon: Bell, match: "exact" as const },
 ];
 
 export function AdminSidebar({ adminUsername }: { adminUsername: string }) {
@@ -44,7 +44,10 @@ export function AdminSidebar({ adminUsername }: { adminUsername: string }) {
       <nav className="flex-1 space-y-1 p-3">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href;
+          const isActive =
+            item.match === "prefix"
+              ? pathname.startsWith("/admin/products")
+              : pathname === item.href;
           return (
             <Link
               key={item.href}

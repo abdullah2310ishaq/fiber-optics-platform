@@ -1,14 +1,14 @@
 "use client";
 
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
 import { getAnalytics, isSupported, type Analytics } from "firebase/analytics";
 import { getFirebaseApp } from "./configuration";
+import { getDb } from "./firestore";
 
 const app = getFirebaseApp();
 
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const db = getDb();
 
 let analyticsInstance: Analytics | null = null;
 
