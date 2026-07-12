@@ -38,10 +38,9 @@ export function ProductsCatalog() {
   return (
     <div className="-mt-16 lg:-mt-[4.5rem]">
       {/* Hero + search */}
-      <section className="relative overflow-hidden border-b border-border bg-background text-white">
+      <section className="relative overflow-hidden border-b border-border bg-card text-foreground">
         <div className="dot-pattern absolute inset-0 opacity-30" />
-        <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-cyan-500/15 blur-[100px]" />
-        <div className="absolute -left-20 bottom-0 h-56 w-56 rounded-full bg-teal-500/10 blur-[80px]" />
+        <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-accent/5 blur-[100px]" />
 
         <div className="relative mx-auto max-w-7xl px-4 pt-28 pb-10 sm:px-6 lg:px-8 lg:pt-32 lg:pb-12">
           <motion.div
@@ -50,21 +49,15 @@ export function ProductsCatalog() {
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             className="text-center"
           >
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cyan-400">
-              Technical Catalog
-            </p>
+            <p className="section-label">Technical Catalog</p>
             <h1 className="display-font mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
-              Fiber Optic{" "}
-              <span className="bg-gradient-to-r from-cyan-300 to-teal-400 bg-clip-text text-transparent">
-                Products
-              </span>
+              Fiber Optic <span className="text-accent">Products</span>
             </h1>
-            <p className="mx-auto mt-4 max-w-lg text-sm text-slate-400">
+            <p className="mx-auto mt-4 max-w-lg text-sm text-muted-foreground">
               Search by SKU, name, or spec — filter by category below.
             </p>
           </motion.div>
 
-          {/* Full-width horizontal search */}
           <motion.form
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -73,19 +66,19 @@ export function ProductsCatalog() {
             className="relative mx-auto mt-10 max-w-3xl"
           >
             <SearchIcon
-              className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"
+              className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground"
               size={20}
             />
             <Input
               placeholder="Search SKU, product name, brand, fiber type..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className="h-14 rounded-2xl border-white/15 bg-white/10 pl-14 pr-32 text-base text-white shadow-lg shadow-black/20 placeholder:text-slate-500 backdrop-blur-sm focus-visible:border-cyan-400/50 focus-visible:bg-white/15 focus-visible:ring-cyan-400/30"
+              className="h-14 rounded-2xl border-border bg-background pl-14 pr-32 text-base shadow-sm"
             />
             <Button
               type="submit"
               variant="accent"
-              className="absolute right-2 top-1/2 h-10 -translate-y-1/2 rounded-xl px-6 shadow-md shadow-cyan-500/25"
+              className="absolute right-2 top-1/2 h-10 -translate-y-1/2 rounded-xl px-6"
             >
               Search
             </Button>
@@ -97,7 +90,7 @@ export function ProductsCatalog() {
               animate={{ opacity: 1, scale: 1 }}
               className="mx-auto mt-4 flex max-w-3xl items-center justify-center gap-2"
             >
-              <span className="rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-sm text-slate-300">
+              <span className="rounded-full border border-border bg-background px-4 py-1.5 text-sm text-muted-foreground">
                 Results for &ldquo;{search}&rdquo;
               </span>
               <button
@@ -106,7 +99,7 @@ export function ProductsCatalog() {
                   setSearch("");
                   setSearchInput("");
                 }}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-slate-400 transition-colors hover:bg-white/10 hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 aria-label="Clear search"
               >
                 <CloseIcon size={14} />
@@ -145,7 +138,7 @@ export function ProductsCatalog() {
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="whitespace-nowrap text-xs font-semibold text-accent transition-colors hover:text-[#22D3EE]"
+                  className="whitespace-nowrap text-xs font-semibold text-accent transition-colors hover:text-accent-hover"
                 >
                   Clear all
                 </button>
@@ -162,7 +155,7 @@ export function ProductsCatalog() {
             <div className="mb-8 flex flex-wrap items-center gap-2">
               <span className="text-sm text-muted-foreground">Showing:</span>
               {activeCategory && (
-                <span className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-accent">
+                <span className="rounded-full border border-accent/25 bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
                   {activeCategory.name}
                 </span>
               )}

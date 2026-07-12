@@ -83,7 +83,6 @@ export function HeroCarousel() {
 
   return (
     <section className="relative min-h-[92vh] overflow-hidden">
-      {/* Background slides */}
       {slides.map((slide, i) => (
         <div
           key={slide.image}
@@ -98,23 +97,21 @@ export function HeroCarousel() {
             fill
             priority={i === 0}
             loading={i === 0 ? "eager" : "lazy"}
-            className="object-cover"
+            className="object-cover brightness-[0.72] saturate-[0.95]"
             sizes="100vw"
           />
         </div>
       ))}
 
-      {/* Overlays */}
       <div className="hero-gradient absolute inset-0" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(34,211,238,0.15),transparent_55%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_80%,rgba(15,23,42,0.4),transparent_50%)]" />
+      <div className="absolute inset-0 bg-black/25" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,106,0,0.12),transparent_55%)]" />
 
-      {/* Content */}
       <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-center px-4 py-28 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-1.5 backdrop-blur-md">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-400" />
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/30 px-4 py-1.5 backdrop-blur-md">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
               {slides[current].label}
             </span>
           </div>
@@ -125,7 +122,7 @@ export function HeroCarousel() {
             for{" "}
             <span
               className={cn(
-                "inline-block bg-gradient-to-r from-cyan-300 via-cyan-400 to-teal-300 bg-clip-text text-transparent transition-all duration-300",
+                "inline-block text-accent transition-all duration-300",
                 isAnimating ? "translate-y-2 opacity-0" : "translate-y-0 opacity-100"
               )}
             >
@@ -133,19 +130,14 @@ export function HeroCarousel() {
             </span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300/90 sm:text-xl">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75 sm:text-xl">
             Precision components for ISPs, contractors, and data centers. Browse
             technical catalogs, submit bulk RFQs, and track orders — all in one
             platform.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">
-            <Button
-              size="lg"
-              variant="accent"
-              className="h-12 px-8 shadow-lg shadow-cyan-500/25"
-              asChild
-            >
+            <Button size="lg" variant="accent" className="h-12 px-8" asChild>
               <Link href="/products">
                 Explore Catalog
                 <ArrowRightIcon size={16} />
@@ -154,7 +146,7 @@ export function HeroCarousel() {
             <Button
               size="lg"
               variant="outline"
-              className="h-12 border-white/25 bg-white/10 px-8 text-white backdrop-blur-sm hover:bg-white/20"
+              className="h-12 border-white/25 bg-white/10 px-8 text-white backdrop-blur-sm hover:bg-white/20 hover:text-white"
               asChild
             >
               <Link href="/rfq">Request Quotation</Link>
@@ -169,7 +161,7 @@ export function HeroCarousel() {
             ].map((stat) => (
               <div key={stat.label}>
                 <p className="text-2xl font-bold text-white sm:text-3xl">{stat.value}</p>
-                <p className="mt-0.5 text-[11px] font-medium uppercase tracking-widest text-slate-400">
+                <p className="mt-0.5 text-[11px] font-medium uppercase tracking-widest text-white/55">
                   {stat.label}
                 </p>
               </div>
@@ -177,7 +169,6 @@ export function HeroCarousel() {
           </div>
         </div>
 
-        {/* Carousel controls */}
         <div className="absolute bottom-8 left-4 right-4 flex items-center justify-between sm:left-6 sm:right-6 lg:left-8 lg:right-8">
           <div className="flex gap-2">
             {slides.map((_, i) => (
@@ -189,7 +180,7 @@ export function HeroCarousel() {
                 className={cn(
                   "h-1 rounded-full transition-all duration-500",
                   i === current
-                    ? "w-8 bg-cyan-400"
+                    ? "w-8 bg-accent"
                     : "w-4 bg-white/30 hover:bg-white/50"
                 )}
               />
@@ -201,7 +192,7 @@ export function HeroCarousel() {
               type="button"
               onClick={prev}
               aria-label="Previous slide"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white backdrop-blur-md transition-colors hover:bg-black/45"
             >
               <ChevronLeftIcon size={20} />
             </button>
@@ -209,7 +200,7 @@ export function HeroCarousel() {
               type="button"
               onClick={next}
               aria-label="Next slide"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white backdrop-blur-md transition-colors hover:bg-black/45"
             >
               <ChevronRightIcon size={20} />
             </button>

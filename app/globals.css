@@ -12,6 +12,7 @@
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
   --accent: #06b6d4;
+  --accent-hover: #0891b2;
   --accent-foreground: #020617;
   --destructive: #ef4444;
   --border: #e2e8f0;
@@ -23,29 +24,29 @@
   --navy-900: #0f172a;
 }
 
-/* Premium dark enterprise theme — public site only */
+/* Premium B2B theme — public site only (warm cream + Alibaba orange) */
 .public-site {
-  --background: #020617;
-  --foreground: #ffffff;
-  --card: #111827;
-  --card-foreground: #ffffff;
-  --primary: #06b6d4;
-  --primary-foreground: #020617;
-  --secondary: #0f172a;
-  --secondary-foreground: #cbd5e1;
-  --muted: #0f172a;
-  --muted-foreground: #64748b;
-  --accent: #06b6d4;
-  --accent-hover: #22d3ee;
-  --accent-secondary: #14b8a6;
-  --accent-foreground: #020617;
+  --background: #fbf9f6;
+  --foreground: #1e1e24;
+  --card: #f4f0ea;
+  --card-foreground: #1e1e24;
+  --primary: #ff6a00;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f0ea;
+  --secondary-foreground: #686d76;
+  --muted: #f4f0ea;
+  --muted-foreground: #686d76;
+  --accent: #ff6a00;
+  --accent-hover: #e85e00;
+  --accent-secondary: #f4f0ea;
+  --accent-foreground: #ffffff;
   --destructive: #ef4444;
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.08);
-  --ring: #06b6d4;
+  --border: #e5e0d8;
+  --input: #e5e0d8;
+  --ring: #ff6a00;
   --success: #10b981;
 
-  color-scheme: dark;
+  color-scheme: light;
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-body), system-ui, sans-serif;
@@ -64,6 +65,7 @@
   --muted: #334155;
   --muted-foreground: #94a3b8;
   --accent: #3b82f6;
+  --accent-hover: #2563eb;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --border: #334155;
@@ -84,6 +86,7 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
@@ -120,13 +123,13 @@ body {
 }
 
 .public-site .text-secondary {
-  color: #cbd5e1;
+  color: #686d76;
 }
 
 .public-site .enterprise-grid {
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(30, 30, 36, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 30, 36, 0.04) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
@@ -138,27 +141,27 @@ body {
 }
 
 .navy-mesh {
-  background-color: var(--navy-900);
+  background-color: #fbf9f6;
   background-image:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(6, 182, 212, 0.2), transparent),
-    radial-gradient(ellipse 50% 40% at 100% 0%, rgba(20, 184, 166, 0.12), transparent);
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(255, 106, 0, 0.06), transparent),
+    radial-gradient(ellipse 50% 40% at 100% 0%, rgba(255, 106, 0, 0.04), transparent);
 }
 
 .hero-gradient {
   background: linear-gradient(
     105deg,
-    rgba(2, 6, 23, 0.94) 0%,
-    rgba(15, 23, 42, 0.82) 45%,
-    rgba(15, 23, 42, 0.65) 100%
+    rgba(20, 20, 24, 0.88) 0%,
+    rgba(30, 30, 36, 0.78) 45%,
+    rgba(30, 30, 36, 0.62) 100%
   );
 }
 
 .cta-gradient {
-  background-color: #0f172a;
+  background-color: #f4f0ea;
   background-image:
-    radial-gradient(ellipse 70% 80% at 50% 120%, rgba(6, 182, 212, 0.22), transparent),
-    radial-gradient(ellipse 40% 50% at 0% 0%, rgba(20, 184, 166, 0.14), transparent),
-    radial-gradient(ellipse 40% 50% at 100% 0%, rgba(6, 182, 212, 0.1), transparent);
+    radial-gradient(ellipse 70% 80% at 50% 120%, rgba(255, 106, 0, 0.08), transparent),
+    radial-gradient(ellipse 40% 50% at 0% 0%, rgba(255, 106, 0, 0.04), transparent),
+    radial-gradient(ellipse 40% 50% at 100% 0%, rgba(255, 106, 0, 0.03), transparent);
 }
 
 .glass-card {
@@ -169,12 +172,12 @@ body {
 }
 
 .public-site .glass-card {
-  background: rgba(17, 24, 39, 0.72);
+  background: rgba(251, 249, 246, 0.85);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid #e5e0d8;
   box-shadow:
-    0 0 0 1px rgba(6, 182, 212, 0.04),
-    0 8px 32px rgba(0, 0, 0, 0.35);
+    0 0 0 1px rgba(255, 106, 0, 0.03),
+    0 8px 32px rgba(30, 30, 36, 0.06);
 }
 
 .glass-card:hover {
@@ -182,10 +185,10 @@ body {
 }
 
 .public-site .glass-card:hover {
-  border-color: rgba(6, 182, 212, 0.2);
+  border-color: rgba(255, 106, 0, 0.2);
   box-shadow:
-    0 0 0 1px rgba(6, 182, 212, 0.08),
-    0 12px 40px rgba(6, 182, 212, 0.08);
+    0 0 0 1px rgba(255, 106, 0, 0.06),
+    0 12px 40px rgba(255, 106, 0, 0.06);
 }
 
 .feature-card {
@@ -196,15 +199,15 @@ body {
 }
 
 .public-site .feature-card {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(30, 30, 36, 0.04);
 }
 
 .feature-card:hover,
 .public-site .feature-card:hover {
-  border-color: rgba(6, 182, 212, 0.25);
-  box-shadow: 0 8px 32px rgba(6, 182, 212, 0.1);
+  border-color: rgba(255, 106, 0, 0.25);
+  box-shadow: 0 8px 32px rgba(255, 106, 0, 0.08);
 }
 
 .section-label {
@@ -233,15 +236,15 @@ body {
 }
 
 .public-site .fiber-glow {
-  box-shadow: 0 0 48px rgba(6, 182, 212, 0.12);
+  box-shadow: 0 0 48px rgba(255, 106, 0, 0.12);
 }
 
 .public-site .cta-gradient-btn {
-  background-image: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  background-color: #ff6a00;
 }
 
 .public-site .cta-gradient-btn:hover {
-  background-image: linear-gradient(135deg, #22d3ee 0%, #14b8a6 100%);
+  background-color: #e85e00;
 }
 
 @keyframes marquee {
@@ -262,11 +265,11 @@ body {
 }
 
 .dot-pattern {
-  background-image: radial-gradient(rgba(6, 182, 212, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 106, 0, 0.08) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 .public-site ::selection {
-  background: rgba(6, 182, 212, 0.35);
-  color: #ffffff;
+  background: rgba(255, 106, 0, 0.2);
+  color: #1e1e24;
 }

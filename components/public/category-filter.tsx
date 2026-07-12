@@ -25,15 +25,15 @@ export function CategoryFilter({
         ? cn(
             "w-full rounded-xl px-4 py-2.5 text-left",
             active
-              ? "bg-cyan-500/15 text-cyan-700 ring-1 ring-cyan-500/30 dark:text-cyan-300"
+              ? "bg-accent/10 text-accent ring-1 ring-accent/25"
               : "text-muted-foreground hover:bg-muted hover:text-foreground"
           )
         : cn(
             "shrink-0 rounded-full px-4 py-2",
             compact ? "text-xs px-3 py-1.5" : "",
             active
-              ? "bg-accent text-accent-foreground shadow-md shadow-cyan-500/20"
-              : "border border-border bg-card text-muted-foreground hover:border-cyan-500/40 hover:text-foreground"
+              ? "bg-accent text-accent-foreground shadow-md shadow-accent/20"
+              : "border border-border bg-card text-muted-foreground hover:border-accent/30 hover:text-foreground"
           )
     );
 

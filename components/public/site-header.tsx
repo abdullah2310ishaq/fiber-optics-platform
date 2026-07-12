@@ -48,10 +48,12 @@ function NavItem({
   const itemClass = cn(
     "rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200",
     active
-      ? "bg-cyan-400/15 text-cyan-300"
+      ? transparent
+        ? "bg-accent/20 text-accent"
+        : "bg-accent/10 text-accent"
       : transparent
-        ? "text-slate-300 hover:bg-white/10 hover:text-white"
-        : "text-slate-300 hover:bg-white/10 hover:text-white",
+        ? "text-white/80 hover:bg-white/10 hover:text-white"
+        : "text-muted-foreground hover:bg-muted hover:text-foreground",
     className
   );
 
@@ -102,8 +104,8 @@ export function SiteHeader() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         transparent
-          ? "border-b border-white/10 bg-transparent"
-          : "border-b border-white/10 bg-background/80 shadow-lg shadow-black/20 backdrop-blur-xl"
+          ? "border-b border-transparent bg-transparent"
+          : "border-b border-border bg-background/90 shadow-sm backdrop-blur-xl"
       )}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-[4.5rem] lg:px-8">
@@ -111,13 +113,11 @@ export function SiteHeader() {
           <span
             className={cn(
               "brand-wordmark text-2xl font-semibold tracking-[0.04em] transition-colors sm:text-[1.65rem]",
-              transparent ? "text-white" : "text-white"
+              transparent ? "text-white" : "text-foreground"
             )}
           >
             Fiber{" "}
-            <span className="bg-gradient-to-r from-cyan-300 to-teal-400 bg-clip-text font-bold text-transparent">
-              Optics
-            </span>
+            <span className="font-bold text-accent">Optics</span>
           </span>
         </Link>
 
@@ -139,8 +139,8 @@ export function SiteHeader() {
             className={cn(
               "hidden sm:inline-flex",
               transparent
-                ? "text-slate-200 hover:bg-white/10 hover:text-white"
-                : "text-slate-200 hover:bg-white/10 hover:text-white"
+                ? "text-white/80 hover:bg-white/10 hover:text-white"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
             )}
             asChild
           >
@@ -148,23 +148,19 @@ export function SiteHeader() {
               <QuotationIcon size={16} />
               RFQ
               {mounted && quoteCount > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-cyan-400 px-1 text-[10px] font-bold text-slate-950">
+                <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-accent-foreground">
                   {quoteCount}
                 </span>
               )}
             </Link>
           </Button>
 
-          <Button
-            size="sm"
-            className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md shadow-cyan-500/25 hover:from-[#22D3EE] hover:to-teal-400"
-            asChild
-          >
+          <Button size="sm" variant="accent" asChild>
             <Link href="/cart" className="relative">
               <CartIcon size={16} />
               <span className="hidden sm:inline">Cart</span>
               {mounted && cartCount > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-1 text-[10px] font-bold text-slate-900">
+                <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-1 text-[10px] font-bold text-accent">
                   {cartCount}
                 </span>
               )}
@@ -176,8 +172,8 @@ export function SiteHeader() {
             className={cn(
               "inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors lg:hidden",
               transparent
-                ? "border-white/20 text-white hover:bg-white/10"
-                : "border-white/15 text-white hover:bg-white/10"
+                ? "border-white/25 text-white hover:bg-white/10"
+                : "border-border text-foreground hover:bg-muted"
             )}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
@@ -188,7 +184,7 @@ export function SiteHeader() {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-white/10 bg-background/95 px-4 py-4 backdrop-blur-xl lg:hidden">
+        <div className="border-t border-border bg-background/95 px-4 py-4 backdrop-blur-xl lg:hidden">
           {navLinks.map((link) => (
             <NavItem
               key={link.label}

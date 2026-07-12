@@ -9,7 +9,6 @@ export default function CartPage() {
         eyebrow="Direct Order"
         title="Shopping Cart & Shipping"
         description="Review items and complete your delivery address to place an order."
-        dark
       />
       <div className="mx-auto max-w-4xl space-y-8 px-4 py-10 sm:px-6 lg:px-8">
         <ShoppingCartList />

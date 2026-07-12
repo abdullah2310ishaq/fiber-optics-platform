@@ -10,7 +10,6 @@ export default function ContactPage() {
         eyebrow="Get in touch"
         title="Contact Us"
         description="Fill in your details, then send via email or WhatsApp — your message will be pre-filled for you."
-        dark
       />
 
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -26,7 +25,7 @@ export default function ContactPage() {
 
             <div className="space-y-3">
               <div className="flex items-start gap-4 rounded-xl border border-border bg-card/60 p-4">
-                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-violet-400" />
+                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                 <div>
                   <p className="text-sm font-medium text-foreground">Email</p>
                   <a
@@ -38,14 +37,14 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="flex items-start gap-4 rounded-xl border border-border bg-card/60 p-4">
-                <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
+                <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
                 <div>
                   <p className="text-sm font-medium text-foreground">WhatsApp</p>
                   <p className="text-sm text-muted-foreground">{WHATSAPP_DISPLAY}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4 rounded-xl border border-border bg-card/60 p-4">
-                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-cyan-400" />
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
                 <div>
                   <p className="text-sm font-medium text-foreground">Hours</p>
                   <p className="text-sm text-muted-foreground">Mon–Fri, 9:00–18:00 GST</p>

@@ -11,7 +11,6 @@ export default function TrackOrderPage() {
         eyebrow="Order Visibility"
         title="Track Your Order"
         description="Enter your order ID and email to view real-time shipping status updates."
-        dark
       />
       <Suspense>
         <TrackOrderContent />

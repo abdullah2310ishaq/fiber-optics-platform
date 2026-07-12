@@ -62,7 +62,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                   variant="outline"
                   className={cn(
                     product.stockStatus === "in_stock"
-                      ? "border-emerald-500/40 text-emerald-600"
+                      ? "border-success/40 text-success"
                       : "border-red-500/40 text-red-600"
                   )}
                 >

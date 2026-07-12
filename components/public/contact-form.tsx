@@ -99,8 +99,8 @@ export function ContactForm() {
           Edit details
         </button>
 
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6 text-center">
-          <CheckCircle2 className="mx-auto h-10 w-10 text-emerald-400" />
+        <div className="rounded-2xl border border-accent/30 bg-accent/5 p-6 text-center">
+          <CheckCircle2 className="mx-auto h-10 w-10 text-accent" />
           <h2 className="display-font mt-3 text-xl font-bold text-foreground">
             Ready to send
           </h2>
@@ -122,28 +122,28 @@ export function ContactForm() {
         <div className="grid gap-4 sm:grid-cols-2">
           <a
             href={buildContactMailtoUrl(payload)}
-            className="group flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-6 text-center transition-all hover:border-violet-500/40 hover:bg-violet-500/5 hover:shadow-lg hover:shadow-violet-500/10"
+            className="group flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-6 text-center transition-all hover:border-accent/30 hover:bg-accent/5 hover:shadow-lg hover:shadow-accent/5"
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-500/15 text-violet-400 transition-transform group-hover:scale-105">
+            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-accent transition-transform group-hover:scale-105">
               <Mail className="h-7 w-7" />
             </span>
             <span className="font-semibold text-foreground">Send via Email</span>
             <span className="text-xs text-muted-foreground">{CONTACT_EMAIL}</span>
-            <span className="text-xs font-medium text-violet-400">Opens your email app →</span>
+            <span className="text-xs font-medium text-accent">Opens your email app →</span>
           </a>
 
           <a
             href={buildContactWhatsAppUrl(payload)}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-6 text-center transition-all hover:border-emerald-500/40 hover:bg-emerald-500/5 hover:shadow-lg hover:shadow-emerald-500/10"
+            className="group flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-6 text-center transition-all hover:border-border hover:bg-muted hover:shadow-lg"
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-400 transition-transform group-hover:scale-105">
+            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted text-muted-foreground transition-transform group-hover:scale-105 group-hover:text-accent">
               <MessageCircle className="h-7 w-7" />
             </span>
             <span className="font-semibold text-foreground">Chat on WhatsApp</span>
             <span className="text-xs text-muted-foreground">{WHATSAPP_DISPLAY}</span>
-            <span className="text-xs font-medium text-emerald-400">Opens WhatsApp with your message →</span>
+            <span className="text-xs font-medium text-accent">Opens WhatsApp with your message →</span>
           </a>
         </div>
       </motion.div>
@@ -158,7 +158,7 @@ export function ContactForm() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300"
+            className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
           >
             {error}
           </motion.p>

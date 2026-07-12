@@ -21,7 +21,7 @@ function SpecChips({ product }: { product: Product }) {
         chips.slice(0, 2).map((chip) => (
           <span
             key={chip}
-            className="rounded-md border border-white/10 bg-secondary px-2 py-0.5 font-mono text-[10px] text-secondary"
+            className="rounded-md border border-border bg-muted px-2 py-0.5 font-mono text-[10px] text-muted-foreground"
           >
             {chip}
           </span>
@@ -64,7 +64,7 @@ export function ProductCard({ product, variant = "light", priority = false }: Pr
 
   if (isCatalog) {
     return (
-      <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-card shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-500/25 hover:shadow-lg hover:shadow-cyan-500/10">
+      <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/25 hover:shadow-lg hover:shadow-accent/5">
         <Link href={`/products/${product.slug}`} className="flex h-full flex-col">
           <div className="relative aspect-[2/1] shrink-0 overflow-hidden bg-secondary">
             {image ? (
@@ -79,7 +79,7 @@ export function ProductCard({ product, variant = "light", priority = false }: Pr
             ) : (
               <ImagePlaceholder />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/10 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
             <div className="absolute left-3 top-3 flex flex-col gap-1">
               {product.isRfqOnly && (
@@ -88,7 +88,7 @@ export function ProductCard({ product, variant = "light", priority = false }: Pr
                 </Badge>
               )}
               {product.stockStatus === "out_of_stock" && (
-                <Badge variant="outline" className="border-red-500/40 bg-black/50 text-[10px] text-red-400">
+                <Badge variant="outline" className="border-destructive/40 bg-card text-[10px] text-destructive">
                   Out of Stock
                 </Badge>
               )}
@@ -102,7 +102,7 @@ export function ProductCard({ product, variant = "light", priority = false }: Pr
           <div className="flex min-h-[128px] flex-1 flex-col p-3.5 sm:p-4">
             <div className="flex items-start justify-between gap-2">
               {product.brand ? (
-                <p className="truncate font-mono text-[10px] uppercase tracking-[0.12em] text-slate-400">
+                <p className="truncate font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
                   {product.brand}
                 </p>
               ) : (
@@ -116,7 +116,7 @@ export function ProductCard({ product, variant = "light", priority = false }: Pr
             </h3>
 
             {product.sku && (
-              <p className="mt-0.5 truncate font-mono text-[10px] text-slate-400">{product.sku}</p>
+              <p className="mt-0.5 truncate font-mono text-[10px] text-muted-foreground">{product.sku}</p>
             )}
 
             <SpecChips product={product} />

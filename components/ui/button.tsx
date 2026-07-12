@@ -15,7 +15,7 @@ const buttonVariants = cva(
         ghost: "text-foreground hover:bg-muted hover:text-foreground",
         destructive: "bg-destructive text-white hover:bg-destructive/90",
         accent:
-          "bg-accent text-accent-foreground shadow-md shadow-cyan-500/20 hover:bg-[#22D3EE]",
+          "bg-accent text-accent-foreground shadow-md shadow-accent/20 hover:bg-accent-hover",
       },
       size: {
         default: "h-10 px-4 py-2",
