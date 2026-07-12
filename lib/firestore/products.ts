@@ -52,6 +52,10 @@ function mapProduct(id: string, data: DocumentData): Product {
     color: data.color,
     stockStatus: data.stockStatus,
     quantity: data.quantity,
+    dimensions: data.dimensions,
+    cabinetFeatures: data.cabinetFeatures,
+    technicalSpecifications: data.technicalSpecifications,
+    orderingInformation: data.orderingInformation,
     createdAt: toDate(data.createdAt),
     updatedAt: toDate(data.updatedAt),
   };

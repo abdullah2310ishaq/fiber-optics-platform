@@ -1,6 +1,9 @@
 export type ProductStatus = "active" | "draft" | "archived";
 export type StockStatus = "in_stock" | "out_of_stock";
 
+export type { ProductDimensions, ProductOrderingRow } from "./product-detail";
+import type { ProductDimensions, ProductOrderingRow } from "./product-detail";
+
 export interface ProductSpecs {
   fiberType?: string;
   connectorType?: string;
@@ -30,6 +33,10 @@ export interface Product {
   color?: string;
   stockStatus?: StockStatus;
   quantity?: number;
+  dimensions?: ProductDimensions;
+  cabinetFeatures?: string;
+  technicalSpecifications?: string;
+  orderingInformation?: ProductOrderingRow[];
   createdAt: Date;
   updatedAt: Date;
 }

@@ -3,7 +3,7 @@ import { AdminLoginForm } from "@/components/admin/admin-login-form";
 
 export default function AdminLoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0b1120] px-4">
+    <div className="admin-site flex min-h-screen items-center justify-center bg-[#0b1120] px-4">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.08),transparent_60%)]" />
       <div className="relative w-full max-w-md">
         <div className="mb-8 text-center">

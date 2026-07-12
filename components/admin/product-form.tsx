@@ -2,9 +2,16 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { saveProduct, updateProduct } from "@/lib/firestore/admin-products";
+import { saveProduct, updateProduct, type SaveProductInput } from "@/lib/firestore/admin-products";
 import { AdminLoadingModal } from "@/components/admin/admin-ui";
+import {
+  EMPTY_DIMENSIONS,
+  EMPTY_ORDERING_ROW,
+  ProductDetailFields,
+} from "@/components/admin/product-detail-fields";
 import { ImageUploader } from "@/components/admin/image-uploader";
+import { PRODUCT_DETAIL_SAMPLES } from "@/lib/constants/product-detail-samples";
+import type { ProductDimensions, ProductOrderingRow } from "@/types/product-detail";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -72,6 +79,10 @@ export function ProductForm({
   const [price, setPrice] = useState("");
   const [isRfqOnly, setIsRfqOnly] = useState(true);
   const [specs, setSpecs] = useState(emptySpecs);
+  const [dimensions, setDimensions] = useState<ProductDimensions>({ ...EMPTY_DIMENSIONS });
+  const [cabinetFeatures, setCabinetFeatures] = useState("");
+  const [technicalSpecifications, setTechnicalSpecifications] = useState("");
+  const [orderingRows, setOrderingRows] = useState<ProductOrderingRow[]>([{ ...EMPTY_ORDERING_ROW }]);
   const [mainImage, setMainImage] = useState("");
   const [galleryImages, setGalleryImages] = useState(["", "", ""]);
   const [activeUploads, setActiveUploads] = useState(0);
@@ -94,6 +105,14 @@ export function ProductForm({
     setPrice(initialProduct.price != null ? String(initialProduct.price) : "");
     setIsRfqOnly(initialProduct.isRfqOnly ?? true);
     setSpecs(specsFromProduct(initialProduct.specs));
+    setDimensions({ ...EMPTY_DIMENSIONS, ...initialProduct.dimensions });
+    setCabinetFeatures(initialProduct.cabinetFeatures ?? "");
+    setTechnicalSpecifications(initialProduct.technicalSpecifications ?? "");
+    setOrderingRows(
+      initialProduct.orderingInformation?.length
+        ? initialProduct.orderingInformation
+        : [{ ...EMPTY_ORDERING_ROW }]
+    );
     setMainImage(initialProduct.images?.[0] ?? "");
     setGalleryImages(galleryFromProduct(initialProduct.images));
   }, [initialProduct]);
@@ -134,8 +153,37 @@ export function ProductForm({
     setPrice("");
     setIsRfqOnly(true);
     setSpecs(emptySpecs);
+    setDimensions({ ...EMPTY_DIMENSIONS });
+    setCabinetFeatures("");
+    setTechnicalSpecifications("");
+    setOrderingRows([{ ...EMPTY_ORDERING_ROW }]);
     setMainImage("");
     setGalleryImages(["", "", ""]);
+  }
+
+  function applySample(sampleId: string) {
+    const sample = PRODUCT_DETAIL_SAMPLES.find((s) => s.id === sampleId);
+    if (!sample) return;
+    const data = sample.data;
+    setName(data.name ?? "");
+    setSlug(data.slug ?? "");
+    setSku(data.sku ?? "");
+    setBrand(data.brand ?? "");
+    setCategoryId(data.categoryId ?? "");
+    setDescription(data.description ?? "");
+    setPcs(data.pcs ?? "");
+    setColor(data.color ?? "");
+    setQuantity(data.quantity != null ? String(data.quantity) : "");
+    setStockStatus(data.stockStatus ?? "");
+    setPrice(data.price != null ? String(data.price) : "");
+    setIsRfqOnly(data.isRfqOnly ?? true);
+    setSpecs(specsFromProduct(data.specs));
+    setDimensions({ ...EMPTY_DIMENSIONS, ...data.dimensions });
+    setCabinetFeatures(data.cabinetFeatures ?? "");
+    setTechnicalSpecifications(data.technicalSpecifications ?? "");
+    setOrderingRows(
+      data.orderingInformation?.length ? data.orderingInformation : [{ ...EMPTY_ORDERING_ROW }]
+    );
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -164,7 +212,7 @@ export function ProductForm({
 
     setSubmitting(true);
     try {
-      const payload = {
+      const payload: SaveProductInput = {
         name: name.trim() || undefined,
         slug: slug.trim() || undefined,
         sku: sku.trim() || undefined,
@@ -178,6 +226,10 @@ export function ProductForm({
         price: parsedPrice,
         isRfqOnly,
         specs,
+        dimensions,
+        cabinetFeatures: cabinetFeatures.trim() || undefined,
+        technicalSpecifications: technicalSpecifications.trim() || undefined,
+        orderingInformation: orderingRows,
         images,
       };
 
@@ -220,6 +272,26 @@ export function ProductForm({
         <p className="text-sm text-slate-400">
           All fields are optional. Images upload to Cloudinary; details save to Firestore.
         </p>
+        {!isEdit && (
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
+            <Label className="shrink-0 text-slate-300">Load sample content</Label>
+            <select
+              defaultValue=""
+              onChange={(e) => {
+                if (e.target.value) applySample(e.target.value);
+                e.target.value = "";
+              }}
+              className="flex h-10 max-w-md flex-1 rounded-md border border-slate-600 bg-slate-900 px-3 text-sm text-white"
+            >
+              <option value="">Choose a cabinet example...</option>
+              {PRODUCT_DETAIL_SAMPLES.map((sample) => (
+                <option key={sample.id} value={sample.id}>
+                  {sample.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       <section className="space-y-4">
@@ -369,8 +441,21 @@ export function ProductForm({
         />
       </section>
 
+      <ProductDetailFields
+        dimensions={dimensions}
+        onDimensionsChange={setDimensions}
+        cabinetFeatures={cabinetFeatures}
+        onCabinetFeaturesChange={setCabinetFeatures}
+        technicalSpecifications={technicalSpecifications}
+        onTechnicalSpecificationsChange={setTechnicalSpecifications}
+        orderingRows={orderingRows}
+        onOrderingRowsChange={setOrderingRows}
+      />
+
       <section className="space-y-4">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-slate-400">Technical Specs</h3>
+        <h3 className="text-sm font-medium uppercase tracking-wide text-slate-400">
+          Fiber Specs (optional)
+        </h3>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {(
             [

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ChevronRight, FileText, ShoppingCart } from "lucide-react";
 import { notFound } from "next/navigation";
+import { ProductDetailSections } from "@/components/public/product-detail-sections";
 import { ProductImageGallery } from "@/components/public/product-image-gallery";
 import { AddToQuoteButton } from "@/components/public/quote-cart";
 import { AddToCartButton } from "@/components/public/shopping-cart";
@@ -24,6 +25,12 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   const specs = product.specs ?? {};
   const canAddToCart = product.price != null && product.price > 0;
   const specEntries = Object.entries(specs).filter(([, v]) => v);
+  const hasFiberSpecs = specEntries.length > 0;
+  const hasRichSpecs = Boolean(
+    product.technicalSpecifications?.trim() ||
+      product.cabinetFeatures?.trim() ||
+      product.dimensions
+  );
 
   return (
     <div className="bg-background">
@@ -157,9 +164,13 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           </div>
         </div>
 
-        {specEntries.length > 0 && (
+        <ProductDetailSections product={product} />
+
+        {hasFiberSpecs && !hasRichSpecs && (
           <div className="mt-16">
-            <h2 className="display-font mb-6 text-xl font-bold text-foreground">Technical Specifications</h2>
+            <h2 className="display-font mb-6 text-xl font-bold text-foreground">
+              Technical Specifications
+            </h2>
             <SpecTable specs={specs} />
           </div>
         )}

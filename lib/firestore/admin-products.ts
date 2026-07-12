@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { getDb } from "@/app/firebase/firestore";
 import type { Product, ProductSpecs, ProductStatus, StockStatus } from "@/types/product";
+import type { ProductDimensions, ProductOrderingRow } from "@/types/product-detail";
 
 function toDate(value: unknown): Date {
   if (value && typeof value === "object" && "toDate" in value) {
@@ -39,6 +40,10 @@ function mapProduct(id: string, data: DocumentData): Product {
     color: data.color,
     stockStatus: data.stockStatus,
     quantity: data.quantity,
+    dimensions: data.dimensions,
+    cabinetFeatures: data.cabinetFeatures,
+    technicalSpecifications: data.technicalSpecifications,
+    orderingInformation: data.orderingInformation,
     createdAt: toDate(data.createdAt),
     updatedAt: toDate(data.updatedAt),
   };
@@ -76,6 +81,10 @@ export interface SaveProductInput {
   color?: string;
   stockStatus?: StockStatus;
   quantity?: number;
+  dimensions?: ProductDimensions;
+  cabinetFeatures?: string;
+  technicalSpecifications?: string;
+  orderingInformation?: ProductOrderingRow[];
 }
 
 function resolveSlug(input: SaveProductInput): string {
@@ -89,6 +98,27 @@ function resolveSlug(input: SaveProductInput): string {
   if (fromSku) return slugify(fromSku);
 
   return `product-${Date.now()}`;
+}
+
+function cleanDimensions(dimensions?: ProductDimensions): ProductDimensions | undefined {
+  if (!dimensions) return undefined;
+  const cleaned = Object.fromEntries(
+    Object.entries(dimensions).filter(([, value]) => typeof value === "string" && value.trim())
+  ) as ProductDimensions;
+  return Object.keys(cleaned).length > 0 ? cleaned : undefined;
+}
+
+function cleanOrderingRows(rows?: ProductOrderingRow[]): ProductOrderingRow[] | undefined {
+  if (!rows?.length) return undefined;
+  const cleaned = rows
+    .map((row) => ({
+      size: row.size?.trim(),
+      width: row.width?.trim(),
+      depth: row.depth?.trim(),
+      partNo: row.partNo?.trim(),
+    }))
+    .filter((row) => row.size || row.width || row.depth || row.partNo);
+  return cleaned.length > 0 ? cleaned : undefined;
 }
 
 function buildProductDoc(
@@ -128,6 +158,14 @@ function buildProductDoc(
   }
 
   if (specs) doc.specs = specs;
+  const dimensions = cleanDimensions(input.dimensions);
+  if (dimensions) doc.dimensions = dimensions;
+  if (input.cabinetFeatures?.trim()) doc.cabinetFeatures = input.cabinetFeatures.trim();
+  if (input.technicalSpecifications?.trim()) {
+    doc.technicalSpecifications = input.technicalSpecifications.trim();
+  }
+  const ordering = cleanOrderingRows(input.orderingInformation);
+  if (ordering) doc.orderingInformation = ordering;
   if (input.price != null && input.price > 0) doc.price = input.price;
   if (input.stockStatus) doc.stockStatus = input.stockStatus;
   if (input.quantity != null && input.quantity >= 0) doc.quantity = input.quantity;
@@ -154,6 +192,14 @@ function productFromDoc(slug: string, docData: Record<string, unknown>): Product
     color: typeof docData.color === "string" ? docData.color : undefined,
     stockStatus: docData.stockStatus as StockStatus | undefined,
     quantity: typeof docData.quantity === "number" ? docData.quantity : undefined,
+    dimensions: docData.dimensions as ProductDimensions | undefined,
+    cabinetFeatures:
+      typeof docData.cabinetFeatures === "string" ? docData.cabinetFeatures : undefined,
+    technicalSpecifications:
+      typeof docData.technicalSpecifications === "string"
+        ? docData.technicalSpecifications
+        : undefined,
+    orderingInformation: docData.orderingInformation as ProductOrderingRow[] | undefined,
     createdAt: toDate(docData.createdAt),
     updatedAt: toDate(docData.updatedAt),
   };
