@@ -55,7 +55,7 @@ export default function AdminNotificationsPage() {
         description="Real-time alerts for new orders and RFQs. Click to jump to the right page."
         action={
           unreadCount > 0 ? (
-            <Button size="sm" variant="outline" onClick={markAllRead} className="border-slate-700">
+            <Button size="sm" variant="outline" onClick={markAllRead} className="border-border">
               <CheckCheck className="h-4 w-4" />
               Mark all read
             </Button>
@@ -85,7 +85,7 @@ export default function AdminNotificationsPage() {
               key={item.id}
               className={cn(
                 "flex flex-wrap items-center justify-between gap-4 p-4",
-                !item.read && "border-blue-500/30"
+                !item.read && "border-accent/30"
               )}
             >
               <button
@@ -94,20 +94,20 @@ export default function AdminNotificationsPage() {
                 className="min-w-0 flex-1 text-left"
               >
                 <div className="flex items-center gap-2">
-                  {!item.read && <span className="h-2 w-2 rounded-full bg-blue-500" />}
-                  <p className="font-medium text-white">{item.title}</p>
-                  <span className="rounded bg-slate-800 px-2 py-0.5 text-[10px] uppercase text-slate-400">
+                  {!item.read && <span className="h-2 w-2 rounded-full bg-accent" />}
+                  <p className="font-medium text-foreground">{item.title}</p>
+                  <span className="rounded bg-muted px-2 py-0.5 text-[10px] uppercase text-muted-foreground">
                     {item.type}
                   </span>
                 </div>
-                <p className="mt-1 text-sm text-slate-400">{item.body}</p>
-                <p className="mt-1 text-xs text-slate-500">{formatDate(item.createdAt)}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{item.body}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{formatDate(item.createdAt)}</p>
               </button>
 
               <Button
                 size="sm"
                 variant="ghost"
-                className="text-slate-400"
+                className="text-muted-foreground"
                 onClick={() => (item.read ? markUnread(item.id) : markRead(item.id))}
               >
                 {item.read ? (

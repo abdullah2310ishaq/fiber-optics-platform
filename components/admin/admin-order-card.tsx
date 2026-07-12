@@ -15,15 +15,7 @@ import {
 import type { Order, OrderStatus } from "@/types/order";
 import { cn } from "@/lib/utils";
 
-const statusBadge: Record<OrderStatus, string> = {
-  pending: "bg-amber-500/20 text-amber-300",
-  processing: "bg-blue-500/20 text-blue-300",
-  packed: "bg-indigo-500/20 text-indigo-300",
-  dispatched: "bg-purple-500/20 text-purple-300",
-  in_transit: "bg-orange-500/20 text-orange-300",
-  delivered: "bg-emerald-500/20 text-emerald-300",
-  completed: "bg-slate-500/20 text-slate-300",
-};
+import { orderStatusBadge } from "@/lib/admin/badge-styles";
 
 interface AdminOrderCardProps {
   order: Order;
@@ -80,13 +72,13 @@ export function AdminOrderCard({ order, isUpdating, highlighted, onStatusUpdate 
       id={`order-${order.id}`}
       className={cn(
         "relative overflow-hidden transition-colors",
-        highlighted && "border-blue-500 ring-2 ring-blue-500/30"
+        highlighted && "border-accent ring-2 ring-accent/30"
       )}
     >
       {busy && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-slate-950/70">
-          <div className="flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-3 text-sm text-white shadow-lg">
-            <Loader2 className="h-4 w-4 animate-spin text-blue-400" />
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-card/80 backdrop-blur-[2px]">
+          <div className="flex items-center gap-2 rounded-lg bg-card px-4 py-3 text-sm text-foreground shadow-lg">
+            <Loader2 className="h-4 w-4 animate-spin text-accent" />
             Updating...
           </div>
         </div>
@@ -95,18 +87,18 @@ export function AdminOrderCard({ order, isUpdating, highlighted, onStatusUpdate 
       <div className="p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="font-semibold text-white">{order.companyName}</p>
-            <p className="text-sm text-slate-400">
+            <p className="font-semibold text-foreground">{order.companyName}</p>
+            <p className="text-sm text-muted-foreground">
               {order.contactName} · {order.contactEmail}
             </p>
-            <p className="mt-1 font-mono text-xs text-slate-500">{order.id}</p>
+            <p className="mt-1 font-mono text-xs text-muted-foreground">{order.id}</p>
           </div>
-          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusBadge[order.status]}`}>
+          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${orderStatusBadge[order.status]}`}>
             {ORDER_STATUS_LABELS[order.status]}
           </span>
         </div>
 
-        <p className="mt-3 text-xs text-slate-500">
+        <p className="mt-3 text-xs text-muted-foreground">
           {order.items.length} item(s)
           {order.subtotal != null ? ` · $${order.subtotal.toFixed(2)}` : ""}
           {" · "}
@@ -114,13 +106,13 @@ export function AdminOrderCard({ order, isUpdating, highlighted, onStatusUpdate 
         </p>
 
         {isCompleted ? (
-          <p className="mt-4 rounded-lg border border-slate-800 bg-slate-950/50 px-4 py-3 text-sm text-slate-400">
+          <p className="mt-4 rounded-lg border border-border bg-muted/60 px-4 py-3 text-sm text-muted-foreground">
             This order is complete. No further action needed.
           </p>
         ) : (
           <>
         <div className="mt-5">
-          <p className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">
+          <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Change status
           </p>
           <div className="flex flex-wrap gap-2">
@@ -132,10 +124,10 @@ export function AdminOrderCard({ order, isUpdating, highlighted, onStatusUpdate 
                 onClick={() => setSelectedStatus(step)}
                 className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors disabled:opacity-50 ${
                   selectedStatus === step
-                    ? "bg-blue-600 text-white"
+                    ? "bg-accent text-accent-foreground"
                     : step === order.status
-                      ? "bg-slate-700 text-white"
-                      : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white"
+                      ? "bg-muted text-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
               >
                 {ORDER_STATUS_LABELS[step]}
@@ -145,9 +137,9 @@ export function AdminOrderCard({ order, isUpdating, highlighted, onStatusUpdate 
         </div>
 
         {needsShipping && (
-          <div className="mt-4 grid gap-3 rounded-lg border border-slate-800 bg-slate-950/50 p-4 sm:grid-cols-2">
+          <div className="mt-4 grid gap-3 rounded-lg border border-border bg-muted/60 p-4 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <Label htmlFor={`courier-${order.id}`} className="text-slate-400">
+              <Label htmlFor={`courier-${order.id}`} className="text-muted-foreground">
                 Courier
               </Label>
               <Input
@@ -156,11 +148,10 @@ export function AdminOrderCard({ order, isUpdating, highlighted, onStatusUpdate 
                 value={courier}
                 disabled={busy}
                 onChange={(e) => setCourier(e.target.value)}
-                className="border-slate-700 bg-slate-900"
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor={`tracking-${order.id}`} className="text-slate-400">
+              <Label htmlFor={`tracking-${order.id}`} className="text-muted-foreground">
                 Tracking #
               </Label>
               <Input
@@ -169,7 +160,6 @@ export function AdminOrderCard({ order, isUpdating, highlighted, onStatusUpdate 
                 value={tracking}
                 disabled={busy}
                 onChange={(e) => setTracking(e.target.value)}
-                className="border-slate-700 bg-slate-900"
               />
             </div>
           </div>
@@ -183,7 +173,7 @@ export function AdminOrderCard({ order, isUpdating, highlighted, onStatusUpdate 
               variant="outline"
               disabled={busy}
               onClick={() => runUpdate(nextStatus)}
-              className="border-slate-600 bg-slate-800 text-white hover:bg-slate-700"
+              className="border-border bg-muted text-foreground hover:bg-muted/80"
             >
               {busy ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

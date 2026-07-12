@@ -57,18 +57,16 @@ export function ImageUploader({
 
   return (
     <div className="space-y-2">
-      <Label>
-        {label}
-      </Label>
+      <Label className="text-foreground">{label}</Label>
 
       {value ? (
-        <div className="relative aspect-square w-full max-w-[200px] overflow-hidden rounded-lg border border-slate-700">
+        <div className="relative aspect-square w-full max-w-[200px] overflow-hidden rounded-lg border border-border">
           <Image src={value} alt={label} fill className="object-cover" sizes="200px" />
           <button
             type="button"
             onClick={onClear}
             disabled={disabled || uploading}
-            className="absolute right-2 top-2 rounded-full bg-black/60 p-1 text-white hover:bg-black/80 disabled:opacity-50"
+            className="absolute right-2 top-2 rounded-full border border-border bg-white/95 p-1 text-foreground shadow-sm hover:bg-white disabled:opacity-50"
           >
             <X className="h-4 w-4" />
           </button>
@@ -79,7 +77,7 @@ export function ImageUploader({
           onClick={() => inputRef.current?.click()}
           disabled={disabled || uploading}
           className={cn(
-            "flex aspect-square w-full max-w-[200px] flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-600 bg-slate-800/50 text-slate-400 transition-colors hover:border-blue-500 hover:text-blue-400",
+            "flex aspect-square w-full max-w-[200px] flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border bg-muted text-muted-foreground transition-colors hover:border-accent hover:bg-muted/80 hover:text-accent",
             (uploading || disabled) && "pointer-events-none opacity-50"
           )}
         >
@@ -104,7 +102,7 @@ export function ImageUploader({
         }}
       />
 
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && <p className="text-xs text-destructive">{error}</p>}
     </div>
   );
 }

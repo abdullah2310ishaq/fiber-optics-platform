@@ -94,7 +94,7 @@ export default function AdminNewProductPage() {
       </div>
 
       {categoriesLoading && (
-        <p className="text-xs text-slate-500">Loading categories...</p>
+        <p className="text-xs text-muted-foreground">Loading categories...</p>
       )}
     </AdminPage>
   );

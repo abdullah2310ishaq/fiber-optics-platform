@@ -21,14 +21,7 @@ const statusLabels: Record<RfqStatus, string> = {
   converted: "Converted",
 };
 
-const statusBadge: Record<RfqStatus, string> = {
-  submitted: "bg-amber-500/20 text-amber-300",
-  under_review: "bg-blue-500/20 text-blue-300",
-  quoted: "bg-purple-500/20 text-purple-300",
-  approved: "bg-emerald-500/20 text-emerald-300",
-  rejected: "bg-red-500/20 text-red-300",
-  converted: "bg-slate-500/20 text-slate-300",
-};
+import { rfqStatusBadge } from "@/lib/admin/badge-styles";
 
 const closedModal: AdminModalState = {
   open: false,
@@ -184,28 +177,28 @@ export default function AdminRfqsPage() {
                 id={`rfq-${rfq.id}`}
                 className={cn(
                   "relative overflow-hidden p-5",
-                  focusId === rfq.id && "border-blue-500 ring-2 ring-blue-500/30"
+                  focusId === rfq.id && "border-accent ring-2 ring-accent/30"
                 )}
               >
                 {busy && (
-                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-slate-950/70">
-                    <Loader2 className="h-6 w-6 animate-spin text-blue-400" />
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-card/80 backdrop-blur-[2px]">
+                    <Loader2 className="h-6 w-6 animate-spin text-accent" />
                   </div>
                 )}
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="font-semibold text-white">{rfq.companyName}</p>
-                    <p className="text-sm text-slate-400">
+                    <p className="font-semibold text-foreground">{rfq.companyName}</p>
+                    <p className="text-sm text-muted-foreground">
                       {rfq.contactName} · {rfq.contactEmail}
                     </p>
                   </div>
-                  <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusBadge[rfq.status]}`}>
+                  <span className={`rounded-full px-3 py-1 text-xs font-semibold ${rfqStatusBadge[rfq.status]}`}>
                     {statusLabels[rfq.status]}
                   </span>
                 </div>
 
                 {rfq.message && (
-                  <p className="mt-3 text-sm text-slate-400">{rfq.message}</p>
+                  <p className="mt-3 text-sm text-muted-foreground">{rfq.message}</p>
                 )}
 
                 <div className="mt-4 flex flex-wrap gap-2">
@@ -233,7 +226,7 @@ export default function AdminRfqsPage() {
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="text-red-400"
+                      className="text-destructive hover:bg-red-50"
                       disabled={busy}
                       onClick={() => handleStatus(rfq.id, "rejected")}
                     >

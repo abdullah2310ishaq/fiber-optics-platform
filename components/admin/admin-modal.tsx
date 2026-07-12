@@ -39,18 +39,18 @@ export function AdminModal({ open, type, title, message, onClose }: AdminModalPr
       <button
         type="button"
         aria-label="Close"
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-foreground/20 backdrop-blur-sm"
         onClick={onClose}
       />
       <div
         role="dialog"
         aria-modal="true"
-        className="relative w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-2xl"
+        className="relative w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl"
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-lg p-1 text-slate-500 hover:bg-slate-800 hover:text-white"
+          className="absolute right-4 top-4 rounded-lg p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
         >
           <X className="h-4 w-4" />
         </button>
@@ -59,13 +59,13 @@ export function AdminModal({ open, type, title, message, onClose }: AdminModalPr
           <div
             className={cn(
               "flex h-14 w-14 items-center justify-center rounded-full",
-              isSuccess ? "bg-emerald-500/15 text-emerald-400" : "bg-red-500/15 text-red-400"
+              isSuccess ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-destructive"
             )}
           >
             {isSuccess ? <CheckCircle2 className="h-8 w-8" /> : <XCircle className="h-8 w-8" />}
           </div>
-          <h2 className="mt-4 text-lg font-semibold text-white">{title}</h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-400">{message}</p>
+          <h2 className="mt-4 text-lg font-semibold text-foreground">{title}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{message}</p>
           <Button type="button" variant="accent" className="mt-6 min-w-[120px]" onClick={onClose}>
             OK
           </Button>

@@ -10,12 +10,12 @@ export function escapeHtml(value: string): string {
 
 export function emailLayout(content: string): string {
   return `
-    <div style="font-family:system-ui,-apple-system,sans-serif;max-width:640px;margin:0 auto;color:#0f172a;line-height:1.5;">
-      <div style="background:linear-gradient(135deg,#0f172a,#1e293b);padding:24px;border-radius:12px 12px 0 0;">
-        <p style="margin:0;font-size:18px;font-weight:700;color:#fff;">${SITE_NAME}</p>
-        <p style="margin:4px 0 0;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#67e8f9;">B2B Procurement</p>
+    <div style="font-family:system-ui,-apple-system,sans-serif;max-width:640px;margin:0 auto;color:#1e1e24;line-height:1.5;">
+      <div style="background:#fbf9f6;padding:24px;border-radius:12px 12px 0 0;border:1px solid #e5e0d8;border-bottom:none;">
+        <p style="margin:0;font-size:18px;font-weight:700;color:#1e1e24;">${SITE_NAME}</p>
+        <p style="margin:4px 0 0;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#ff6a00;">B2B Procurement</p>
       </div>
-      <div style="padding:28px 24px;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;">
+      <div style="padding:28px 24px;background:#fff;border:1px solid #e5e0d8;border-top:none;border-radius:0 0 12px 12px;">
         ${content}
       </div>
       <p style="margin:16px 0 0;font-size:11px;color:#94a3b8;text-align:center;">

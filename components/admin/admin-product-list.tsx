@@ -19,15 +19,15 @@ import { deleteProduct, getAllProducts } from "@/lib/firestore/admin-products";
 import { cn } from "@/lib/utils";
 import type { Category, Product } from "@/types/product";
 
+import { productActiveBadge, stockStatusBadge } from "@/lib/admin/badge-styles";
+
 function StockBadge({ status }: { status?: Product["stockStatus"] }) {
-  if (!status) return <span className="text-xs text-slate-600">—</span>;
+  if (!status) return <span className="text-xs text-muted-foreground">—</span>;
   return (
     <span
       className={cn(
         "inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium uppercase",
-        status === "in_stock"
-          ? "bg-emerald-500/15 text-emerald-400"
-          : "bg-red-500/15 text-red-400"
+        stockStatusBadge[status]
       )}
     >
       {status === "in_stock" ? "In Stock" : "Out of Stock"}
@@ -113,12 +113,12 @@ export function AdminProductList() {
       />
 
       <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search name, SKU, brand..."
-          className="border-slate-700 bg-slate-900 pl-9 text-white"
+          className="pl-9"
         />
       </div>
 
@@ -131,11 +131,11 @@ export function AdminProductList() {
             : "No products match your search."}
         </AdminEmpty>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/50">
+        <div className="overflow-hidden rounded-xl border border-border bg-card">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px] text-left text-sm">
               <thead>
-                <tr className="border-b border-slate-800 bg-slate-950/80 text-xs uppercase tracking-wide text-slate-500">
+                <tr className="border-b border-border bg-muted/60 text-xs uppercase tracking-wide text-muted-foreground">
                   <th className="px-4 py-3 font-medium">Product</th>
                   <th className="px-4 py-3 font-medium">SKU</th>
                   <th className="px-4 py-3 font-medium">Category</th>
@@ -145,20 +145,20 @@ export function AdminProductList() {
                   <th className="px-4 py-3 text-right font-medium">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800">
+              <tbody className="divide-y divide-border">
                 {filtered.map((product) => {
                   const isDeleting = deletingId === product.id;
                   return (
                     <tr
                       key={product.id}
                       className={cn(
-                        "transition-colors hover:bg-slate-800/40",
+                        "transition-colors hover:bg-muted/40",
                         isDeleting && "opacity-50"
                       )}
                     >
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
-                          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-950">
+                          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-background">
                             {product.images?.[0] ? (
                               <Image
                                 src={product.images[0]}
@@ -168,25 +168,25 @@ export function AdminProductList() {
                                 sizes="48px"
                               />
                             ) : (
-                              <div className="flex h-full items-center justify-center text-[10px] text-slate-600">
+                              <div className="flex h-full items-center justify-center text-[10px] text-muted-foreground">
                                 N/A
                               </div>
                             )}
                           </div>
                           <div className="min-w-0">
-                            <p className="truncate font-medium text-white">
+                            <p className="truncate font-medium text-foreground">
                               {product.name ?? "Untitled"}
                             </p>
-                            <p className="truncate font-mono text-xs text-slate-500">
+                            <p className="truncate font-mono text-xs text-muted-foreground">
                               {product.slug}
                             </p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-3 font-mono text-xs text-slate-400">
+                      <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
                         {product.sku ?? "—"}
                       </td>
-                      <td className="px-4 py-3 text-slate-400">
+                      <td className="px-4 py-3 text-muted-foreground">
                         {product.categoryId
                           ? categoryMap.get(product.categoryId) ?? product.categoryId
                           : "—"}
@@ -195,11 +195,11 @@ export function AdminProductList() {
                         <div className="space-y-1">
                           <StockBadge status={product.stockStatus} />
                           {product.quantity != null && (
-                            <p className="text-xs text-slate-500">Qty: {product.quantity}</p>
+                            <p className="text-xs text-muted-foreground">Qty: {product.quantity}</p>
                           )}
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-slate-300">
+                      <td className="px-4 py-3 text-foreground">
                         {product.price != null && product.price > 0
                           ? `$${product.price.toFixed(2)}`
                           : "RFQ"}
@@ -207,10 +207,10 @@ export function AdminProductList() {
                       <td className="px-4 py-3">
                         <span
                           className={cn(
-                            "text-xs capitalize",
+                            "inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium capitalize",
                             product.status === "active"
-                              ? "text-emerald-400"
-                              : "text-slate-500"
+                              ? productActiveBadge
+                              : "bg-muted text-muted-foreground"
                           )}
                         >
                           {product.status ?? "active"}
@@ -240,7 +240,7 @@ export function AdminProductList() {
                             size="sm"
                             onClick={() => handleDelete(product)}
                             disabled={isDeleting || busy}
-                            className="text-red-400 hover:bg-red-500/10 hover:text-red-300"
+                            className="text-destructive hover:bg-red-50 hover:text-destructive"
                             title="Delete product"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -253,7 +253,7 @@ export function AdminProductList() {
               </tbody>
             </table>
           </div>
-          <div className="border-t border-slate-800 px-4 py-2 text-xs text-slate-500">
+          <div className="border-t border-border px-4 py-2 text-xs text-muted-foreground">
             {filtered.length} of {products.length} products
           </div>
         </div>

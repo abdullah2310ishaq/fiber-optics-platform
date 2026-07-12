@@ -24,10 +24,10 @@ export function AdminPageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-6">
+    <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border pb-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">{title}</h1>
-        {description && <p className="mt-1 max-w-xl text-sm text-slate-400">{description}</p>}
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">{title}</h1>
+        {description && <p className="mt-1 max-w-xl text-sm text-muted-foreground">{description}</p>}
       </div>
       {action}
     </div>
@@ -37,8 +37,8 @@ export function AdminPageHeader({
 export function AdminLoading({ label = "Loading..." }: { label?: string }) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-16">
-      <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-      <p className="text-sm text-slate-400">{label}</p>
+      <Loader2 className="h-8 w-8 animate-spin text-accent" />
+      <p className="text-sm text-muted-foreground">{label}</p>
     </div>
   );
 }
@@ -62,16 +62,16 @@ export function AdminLoadingModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-foreground/20 backdrop-blur-sm"
       role="alertdialog"
       aria-modal="true"
       aria-busy="true"
       aria-label={message}
     >
-      <div className="flex flex-col items-center gap-4 rounded-2xl border border-slate-700 bg-slate-900 px-10 py-10 shadow-2xl">
-        <Loader2 className="h-10 w-10 animate-spin text-blue-500" />
-        <p className="text-center text-sm font-medium text-slate-200">{message}</p>
-        <p className="text-center text-xs text-slate-500">Do not close this page</p>
+      <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-card px-10 py-10 shadow-2xl">
+        <Loader2 className="h-10 w-10 animate-spin text-accent" />
+        <p className="text-center text-sm font-medium text-foreground">{message}</p>
+        <p className="text-center text-xs text-muted-foreground">Do not close this page</p>
       </div>
     </div>
   );
@@ -79,7 +79,7 @@ export function AdminLoadingModal({
 
 export function AdminEmpty({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-dashed border-slate-700 bg-slate-900/40 py-12 text-center text-sm text-slate-500">
+    <div className="rounded-xl border border-dashed border-border bg-muted/50 py-12 text-center text-sm text-muted-foreground">
       {children}
     </div>
   );
@@ -98,7 +98,7 @@ export function AdminCard({
     <div
       id={id}
       className={cn(
-        "rounded-xl border border-slate-800 bg-slate-900/80 shadow-sm",
+        "rounded-xl border border-border bg-card shadow-sm",
         className
       )}
     >
@@ -126,8 +126,8 @@ export function AdminTabs({
           className={cn(
             "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
             active === tab.id
-              ? "bg-blue-600 text-white"
-              : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white"
+              ? "bg-accent text-accent-foreground"
+              : "bg-muted text-muted-foreground hover:bg-secondary hover:text-foreground"
           )}
         >
           {tab.label}

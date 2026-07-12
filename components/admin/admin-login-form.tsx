@@ -42,28 +42,27 @@ export function AdminLoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-md border-slate-800 bg-slate-900/80 shadow-2xl backdrop-blur-sm">
-      <CardHeader className="border-b border-slate-800">
-        <CardTitle className="text-white">Secure Login</CardTitle>
-        <CardDescription className="text-slate-400">
+    <Card className="w-full max-w-md border-border bg-card shadow-2xl">
+      <CardHeader className="border-b border-border">
+        <CardTitle className="text-foreground">Secure Login</CardTitle>
+        <CardDescription className="text-muted-foreground">
           Enter admin password to access the control panel.
         </CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="admin-password" className="text-slate-200">Admin Password</Label>
+            <Label htmlFor="admin-password" className="text-foreground">Admin Password</Label>
             <Input
               id="admin-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border-slate-700 bg-slate-800 text-white"
               placeholder="Enter password"
               required
             />
           </div>
-          {error && <p className="text-sm text-red-400">{error}</p>}
+          {error && <p className="text-sm text-destructive">{error}</p>}
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Signing in..." : "Sign In"}
           </Button>

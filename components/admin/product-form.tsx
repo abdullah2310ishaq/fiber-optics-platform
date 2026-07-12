@@ -262,26 +262,26 @@ export function ProductForm({
 
       <form
         onSubmit={handleSubmit}
-        className="space-y-8 rounded-xl border border-slate-700 bg-slate-800 p-6"
+        className="space-y-8 rounded-xl border border-border bg-card p-6"
         aria-busy={isBusy}
       >
       <div>
-        <h2 className="text-lg font-semibold text-white">
+        <h2 className="text-lg font-semibold text-foreground">
           {isEdit ? "Edit Product" : "Add Product"}
         </h2>
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-muted-foreground">
           All fields are optional. Images upload to Cloudinary; details save to Firestore.
         </p>
         {!isEdit && (
           <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-            <Label className="shrink-0 text-slate-300">Load sample content</Label>
+            <Label className="shrink-0 text-foreground">Load sample content</Label>
             <select
               defaultValue=""
               onChange={(e) => {
                 if (e.target.value) applySample(e.target.value);
                 e.target.value = "";
               }}
-              className="flex h-10 max-w-md flex-1 rounded-md border border-slate-600 bg-slate-900 px-3 text-sm text-white"
+              className="max-w-md"
             >
               <option value="">Choose a cabinet example...</option>
               {PRODUCT_DETAIL_SAMPLES.map((sample) => (
@@ -295,54 +295,49 @@ export function ProductForm({
       </div>
 
       <section className="space-y-4">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-slate-400">Basic</h3>
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Basic</h3>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label className="text-slate-200">Product Name</Label>
+            <Label className="text-foreground">Product Name</Label>
             <Input
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
                 if (!isEdit && !slug) setSlug(slugify(e.target.value));
               }}
-              className="border-slate-600 bg-slate-900 text-white"
               placeholder="Optional"
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-slate-200">SKU</Label>
+            <Label className="text-foreground">SKU</Label>
             <Input
               value={sku}
               onChange={(e) => setSku(e.target.value)}
-              className="border-slate-600 bg-slate-900 text-white"
               placeholder="Optional"
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-slate-200">Slug</Label>
+            <Label className="text-foreground">Slug</Label>
             <Input
               value={slug}
               onChange={(e) => setSlug(slugify(e.target.value))}
-              className="border-slate-600 bg-slate-900 text-white"
               placeholder="Auto-generated if empty"
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-slate-200">Brand</Label>
+            <Label className="text-foreground">Brand</Label>
             <Input
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
-              className="border-slate-600 bg-slate-900 text-white"
               placeholder="Optional"
             />
           </div>
         </div>
         <div className="space-y-2">
-          <Label className="text-slate-200">Category</Label>
+          <Label className="text-foreground">Category</Label>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="flex h-10 w-full rounded-md border border-slate-600 bg-slate-900 px-3 text-sm text-white"
           >
             <option value="">None</option>
             {categories.map((cat) => (
@@ -355,43 +350,39 @@ export function ProductForm({
       </section>
 
       <section className="space-y-4">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-slate-400">Inventory</h3>
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Inventory</h3>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-2">
-            <Label className="text-slate-200">PCS</Label>
+            <Label className="text-foreground">PCS</Label>
             <Input
               value={pcs}
               onChange={(e) => setPcs(e.target.value)}
-              className="border-slate-600 bg-slate-900 text-white"
               placeholder="e.g. 100 pcs"
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-slate-200">Color</Label>
+            <Label className="text-foreground">Color</Label>
             <Input
               value={color}
               onChange={(e) => setColor(e.target.value)}
-              className="border-slate-600 bg-slate-900 text-white"
               placeholder="Optional"
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-slate-200">Quantity</Label>
+            <Label className="text-foreground">Quantity</Label>
             <Input
               type="number"
               min={0}
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
-              className="border-slate-600 bg-slate-900 text-white"
               placeholder="Stock count"
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-slate-200">Stock Status</Label>
+            <Label className="text-foreground">Stock Status</Label>
             <select
               value={stockStatus}
               onChange={(e) => setStockStatus(e.target.value as StockStatus | "")}
-              className="flex h-10 w-full rounded-md border border-slate-600 bg-slate-900 px-3 text-sm text-white"
             >
               <option value="">Not set</option>
               <option value="in_stock">In Stock</option>
@@ -402,27 +393,26 @@ export function ProductForm({
       </section>
 
       <section className="space-y-4">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-slate-400">Pricing & Sales</h3>
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Pricing & Sales</h3>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label className="text-slate-200">Price (USD)</Label>
+            <Label className="text-foreground">Price (USD)</Label>
             <Input
               type="number"
               min={0}
               step="0.01"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="border-slate-600 bg-slate-900 text-white"
               placeholder="Enables Add to Cart when set"
             />
           </div>
           <div className="flex items-end gap-3 pb-1">
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-200">
+            <label className="flex cursor-pointer items-center gap-2 text-sm text-foreground">
               <input
                 type="checkbox"
                 checked={isRfqOnly}
                 onChange={(e) => setIsRfqOnly(e.target.checked)}
-                className="rounded border-slate-600"
+                className="h-4 w-4 rounded border-border"
               />
               RFQ available
             </label>
@@ -431,11 +421,10 @@ export function ProductForm({
       </section>
 
       <section className="space-y-2">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-slate-400">Description</h3>
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Description</h3>
         <Textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="border-slate-600 bg-slate-900 text-white"
           rows={4}
           placeholder="Optional product description"
         />
@@ -453,7 +442,7 @@ export function ProductForm({
       />
 
       <section className="space-y-4">
-        <h3 className="text-sm font-medium uppercase tracking-wide text-slate-400">
+        <h3 className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
           Fiber Specs (optional)
         </h3>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -468,11 +457,10 @@ export function ProductForm({
             ] as const
           ).map(([key, label]) => (
             <div key={key} className="space-y-2">
-              <Label className="text-slate-200">{label}</Label>
+              <Label className="text-foreground">{label}</Label>
               <Input
                 value={specs[key]}
                 onChange={(e) => updateSpec(key, e.target.value)}
-                className="border-slate-600 bg-slate-900 text-white"
                 placeholder="Optional"
               />
             </div>
@@ -481,8 +469,8 @@ export function ProductForm({
       </section>
 
       <section className="space-y-4">
-        <h3 className="font-medium text-white">Product Images</h3>
-        <p className="text-xs text-slate-400">1 main image + up to 3 gallery images (all optional)</p>
+        <h3 className="font-medium text-foreground">Product Images</h3>
+        <p className="text-xs text-muted-foreground">1 main image + up to 3 gallery images (all optional)</p>
 
         <ImageUploader
           label="Main Image"
@@ -510,9 +498,9 @@ export function ProductForm({
         </div>
       </section>
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm text-destructive">{error}</p>}
       {success && (
-        <p className="text-sm text-green-400">
+        <p className="text-sm text-emerald-700">
           {isEdit ? "Product updated successfully." : "Product saved to Firebase successfully."}
         </p>
       )}

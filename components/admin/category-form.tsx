@@ -122,22 +122,21 @@ export function CategoryForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 rounded-xl border border-slate-700 bg-slate-800 p-6"
+      className="space-y-4 rounded-xl border border-border bg-card p-6"
     >
       <div>
-        <h2 className="text-lg font-semibold text-white">Categories</h2>
-        <p className="text-sm text-slate-400">
+        <h2 className="text-lg font-semibold text-foreground">Categories</h2>
+        <p className="text-sm text-muted-foreground">
           Add, edit, or delete categories. Changes apply to the product form and public site.
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label className="text-slate-200">New Category</Label>
+        <Label className="text-foreground">New Category</Label>
         <div className="flex flex-col gap-2 sm:flex-row">
           <Input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border-slate-600 bg-slate-900 text-white"
             placeholder="e.g. Fiber Adapters"
           />
           <Button type="submit" disabled={submitting} className="shrink-0">
@@ -146,12 +145,12 @@ export function CategoryForm({
         </div>
       </div>
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
-      {success && <p className="text-sm text-green-400">Category added successfully.</p>}
+      {error && <p className="text-sm text-destructive">{error}</p>}
+      {success && <p className="text-sm text-emerald-700">Category added successfully.</p>}
 
       {categories.length > 0 && (
-        <div className="border-t border-slate-700 pt-4">
-          <p className="mb-3 text-xs font-medium uppercase tracking-wide text-slate-500">
+        <div className="border-t border-border pt-4">
+          <p className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Current categories ({categories.length})
           </p>
           <ul className="space-y-2">
@@ -165,12 +164,11 @@ export function CategoryForm({
                 return (
                   <li
                     key={cat.id}
-                    className="flex flex-col gap-2 rounded-lg border border-slate-600 bg-slate-900 p-3 sm:flex-row sm:items-center"
+                    className="flex flex-col gap-2 rounded-lg border border-border bg-card p-3 sm:flex-row sm:items-center"
                   >
                     <Input
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
-                      className="border-slate-600 bg-slate-950 text-white sm:flex-1"
                       placeholder="Category name"
                       autoFocus
                     />
@@ -179,7 +177,7 @@ export function CategoryForm({
                       min={0}
                       value={editOrder}
                       onChange={(e) => setEditOrder(e.target.value)}
-                      className="w-full border-slate-600 bg-slate-950 text-white sm:w-20"
+                      className="w-full sm:w-20"
                       placeholder="Order"
                       title="Display order"
                     />
@@ -210,13 +208,13 @@ export function CategoryForm({
                 <li
                   key={cat.id}
                   className={cn(
-                    "flex items-center justify-between gap-2 rounded-lg border border-slate-700 bg-slate-900/50 px-3 py-2",
+                    "flex items-center justify-between gap-2 rounded-lg border border-border bg-muted/60 px-3 py-2",
                     (isDeleting || isSaving) && "opacity-50"
                   )}
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm text-white">{cat.name}</p>
-                    <p className="font-mono text-[10px] text-slate-500">
+                    <p className="truncate text-sm text-foreground">{cat.name}</p>
+                    <p className="font-mono text-[10px] text-muted-foreground">
                       {cat.slug} · order {cat.order}
                     </p>
                   </div>
@@ -225,7 +223,7 @@ export function CategoryForm({
                       type="button"
                       onClick={() => startEdit(cat)}
                       disabled={isDeleting}
-                      className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white"
+                      className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                       aria-label={`Edit ${cat.name}`}
                     >
                       <Pencil className="h-3.5 w-3.5" />
@@ -235,7 +233,7 @@ export function CategoryForm({
                         type="button"
                         onClick={() => handleDelete(cat)}
                         disabled={isDeleting}
-                        className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-red-500/20 hover:text-red-400"
+                        className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-red-50 hover:text-destructive"
                         aria-label={`Delete ${cat.name}`}
                       >
                         <X className="h-3.5 w-3.5" />

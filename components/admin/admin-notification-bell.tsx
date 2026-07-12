@@ -30,20 +30,20 @@ function NotificationRow({
       type="button"
       onClick={() => onOpen(item)}
       className={cn(
-        "flex w-full gap-3 border-b border-slate-800 px-4 py-3 text-left transition-colors hover:bg-slate-800/80",
-        !item.read && "bg-blue-500/5"
+        "flex w-full gap-3 border-b border-border px-4 py-3 text-left transition-colors hover:bg-muted/80",
+        !item.read && "bg-accent/5"
       )}
     >
       <span
         className={cn(
           "mt-1.5 h-2 w-2 shrink-0 rounded-full",
-          item.read ? "bg-transparent" : "bg-blue-500"
+          item.read ? "bg-transparent" : "bg-accent"
         )}
       />
       <span className="min-w-0 flex-1">
-        <span className="block text-sm font-medium text-white">{item.title}</span>
-        <span className="mt-0.5 block truncate text-xs text-slate-400">{item.body}</span>
-        <span className="mt-1 block text-[10px] text-slate-500">{formatTime(item.createdAt)}</span>
+        <span className="block text-sm font-medium text-foreground">{item.title}</span>
+        <span className="mt-0.5 block truncate text-xs text-muted-foreground">{item.body}</span>
+        <span className="mt-1 block text-[10px] text-muted-foreground">{formatTime(item.createdAt)}</span>
       </span>
     </button>
   );
@@ -79,29 +79,29 @@ export function AdminNotificationBell() {
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-slate-700 bg-slate-900 text-slate-300 transition-colors hover:bg-slate-800 hover:text-white"
+        className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-foreground transition-colors hover:bg-muted hover:text-foreground"
         aria-label="Notifications"
       >
         <Bell className="h-4 w-4" />
         {unreadCount > 0 && (
-          <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-blue-600 px-1 text-[10px] font-bold text-white">
+          <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-accent-foreground">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-slate-700 bg-slate-900 shadow-xl">
-          <div className="flex items-center justify-between border-b border-slate-800 px-4 py-3">
-            <p className="text-sm font-semibold text-white">Notifications</p>
+        <div className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-border bg-card shadow-xl">
+          <div className="flex items-center justify-between border-b border-border px-4 py-3">
+            <p className="text-sm font-semibold text-foreground">Notifications</p>
             {unreadCount > 0 && (
-              <span className="text-xs text-blue-400">{unreadCount} unread</span>
+              <span className="text-xs text-accent">{unreadCount} unread</span>
             )}
           </div>
 
           <div className="max-h-80 overflow-y-auto">
             {preview.length === 0 ? (
-              <p className="px-4 py-8 text-center text-sm text-slate-500">No notifications yet</p>
+              <p className="px-4 py-8 text-center text-sm text-muted-foreground">No notifications yet</p>
             ) : (
               preview.map((item) => (
                 <NotificationRow key={item.id} item={item} onOpen={handleOpen} />
@@ -109,11 +109,11 @@ export function AdminNotificationBell() {
             )}
           </div>
 
-          <div className="border-t border-slate-800 p-2">
+          <div className="border-t border-border p-2">
             <Link
               href="/admin/notifications"
               onClick={() => setOpen(false)}
-              className="block rounded-lg px-3 py-2 text-center text-sm text-blue-400 hover:bg-slate-800"
+              className="block rounded-lg px-3 py-2 text-center text-sm text-accent hover:bg-muted"
             >
               View all notifications
             </Link>
