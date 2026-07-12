@@ -1,3 +1,4 @@
+import { SITE_NAME } from "@/lib/site/brand";
 import type { OrderStatus } from "@/types/order";
 import type { RfqStatus } from "@/types/rfq";
 
@@ -31,7 +32,7 @@ export const ORDER_STATUS_LABELS: Record<
   },
   completed: {
     title: "Order Completed",
-    message: "Your order is complete. We appreciate your trust in Fiber Optics.",
+    message: `Your order is complete. We appreciate your trust in ${SITE_NAME}.`,
   },
 };
 

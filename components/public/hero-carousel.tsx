@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@/components/icons/fiber-icons";
+import { SITE_NAME } from "@/lib/site/brand";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -117,7 +118,7 @@ export function HeroCarousel() {
           </div>
 
           <h1 className="display-font text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-7xl">
-            Industrial Fiber Optics
+            {SITE_NAME}
             <br />
             for{" "}
             <span

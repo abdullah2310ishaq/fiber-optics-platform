@@ -17,6 +17,7 @@ import {
   Workflow,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SITE_NAME, SITE_NAME_SHORT } from "@/lib/site/brand";
 import { CONTACT_EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL } from "@/lib/site/contact";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -167,7 +168,7 @@ export function SiteFooter() {
           >
             <Link href="/" className="inline-block">
               <span className="brand-wordmark text-3xl font-semibold tracking-[0.04em] text-foreground sm:text-4xl">
-                Fiber <span className="font-bold text-accent">Optics</span>
+                {SITE_NAME_SHORT} <span className="font-bold text-accent">Technologies</span>
               </span>
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
@@ -271,7 +272,7 @@ export function SiteFooter() {
 
         <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-xs text-muted-foreground" suppressHydrationWarning>
-            © {new Date().getFullYear()} Fiber Optics. All rights reserved.
+            © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
             <Link href="/products" className="transition-colors hover:text-accent">

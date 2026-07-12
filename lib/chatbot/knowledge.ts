@@ -1,4 +1,5 @@
 import { CONTACT_EMAIL, WHATSAPP_DISPLAY } from "@/lib/site/contact";
+import { ASSISTANT_NAME, SITE_NAME } from "@/lib/site/brand";
 
 export interface ChatMessage {
   id: string;
@@ -20,7 +21,7 @@ export interface KnowledgeEntry {
 }
 
 export const CHATBOT_WELCOME: ChatReply = {
-  content: `Hi! I'm the **Fiber Optics Assistant** — here to help with our catalog, RFQs, orders, and technical questions.
+  content: `Hi! I'm the **${ASSISTANT_NAME}** — here to help with our catalog, RFQs, orders, and technical questions.
 
 We supply enterprise-grade fiber components for ISPs, contractors, and data centers. What would you like to know?`,
   suggestions: [
@@ -242,13 +243,15 @@ For urgent project quotes, WhatsApp is fastest — include your BOM or product S
       "who",
       "about",
       "company",
+      "ncore",
+      "ncore technologies",
       "fiber optics",
       "isp",
       "b2b",
       "platform",
     ],
     suggestions: ["What do you sell?", "How does RFQ work?", "Browse products"],
-    answer: `**Fiber Optics** is a B2B procurement platform for telecom infrastructure — not a retail shop.
+    answer: `**${SITE_NAME}** is a B2B procurement platform for telecom infrastructure — not a retail shop.
 
 We serve **ISPs, network operators, contractors, and data center teams** with:
 

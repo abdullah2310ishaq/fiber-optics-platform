@@ -1,3 +1,5 @@
+import { SITE_NAME } from "@/lib/site/brand";
+
 const WHATSAPP_NUMBER = "971559247636";
 
 export const CONTACT_EMAIL = "nasir.ch87@yahoo.com";
@@ -5,7 +7,7 @@ export const CONTACT_EMAIL = "nasir.ch87@yahoo.com";
 export const WHATSAPP_DISPLAY = "+971 55 924 7636";
 
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  "Hi, I would like to get in touch with Fiber Optics."
+  `Hi, I would like to get in touch with ${SITE_NAME}.`
 )}`;
 
 export interface ContactFormPayload {
@@ -31,7 +33,7 @@ export function buildContactMessage(payload: ContactFormPayload): string {
 }
 
 export function buildContactMailtoUrl(payload: ContactFormPayload): string {
-  const subject = encodeURIComponent(`Contact from ${payload.name} — Fiber Optics`);
+  const subject = encodeURIComponent(`Contact from ${payload.name} — ${SITE_NAME}`);
   const body = encodeURIComponent(buildContactMessage(payload));
   return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 }

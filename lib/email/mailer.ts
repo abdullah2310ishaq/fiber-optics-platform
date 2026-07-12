@@ -1,3 +1,4 @@
+import { SITE_NAME } from "@/lib/site/brand";
 import nodemailer from "nodemailer";
 
 function parseEmails(raw: string | undefined): string[] {
@@ -42,7 +43,7 @@ export function getMailer() {
 export function getFromAddress(): string {
   const user = process.env.EMAIL_USER;
   if (!user) throw new Error("EMAIL_USER is not configured");
-  return `Fiber Optics B2B <${user}>`;
+  return `${SITE_NAME} <${user}>`;
 }
 
 export function getSiteUrl(request?: Request): string {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Plus_Jakarta_Sans, Sora, Space_Grotesk } from "next/font/google";
+import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site/brand";
 import "./globals.css";
 
 const bodyFont = Plus_Jakarta_Sans({
@@ -28,8 +29,8 @@ const homeLabel = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Fiber Optics B2B Platform",
-  description: "Enterprise fiber optic components marketplace with RFQ-based B2B sales",
+  title: `${SITE_NAME} B2B Platform`,
+  description: SITE_DESCRIPTION,
 };
 
 export default function RootLayout({

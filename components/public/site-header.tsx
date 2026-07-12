@@ -9,6 +9,7 @@ import {
   MenuIcon,
   QuotationIcon,
 } from "@/components/icons/fiber-icons";
+import { SITE_NAME_SHORT } from "@/lib/site/brand";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useMounted } from "@/hooks/use-mounted";
@@ -116,8 +117,8 @@ export function SiteHeader() {
               transparent ? "text-white" : "text-foreground"
             )}
           >
-            Fiber{" "}
-            <span className="font-bold text-accent">Optics</span>
+            {SITE_NAME_SHORT}{" "}
+            <span className="font-bold text-accent">Technologies</span>
           </span>
         </Link>
 

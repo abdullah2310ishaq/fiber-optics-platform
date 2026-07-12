@@ -1,6 +1,7 @@
 import { Mail, MapPin, MessageCircle } from "lucide-react";
 import { ContactForm } from "@/components/public/contact-form";
 import { PageHeader } from "@/components/public/page-header";
+import { SITE_NAME } from "@/lib/site/brand";
 import { CONTACT_EMAIL, WHATSAPP_DISPLAY } from "@/lib/site/contact";
 
 export default function ContactPage() {
@@ -18,8 +19,8 @@ export default function ContactPage() {
             <div className="rounded-2xl border border-border bg-card p-6">
               <h2 className="display-font text-lg font-bold text-foreground">Talk to our team</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Enterprise fiber optics procurement, RFQs, and order support. We typically
-                respond within 24 hours on business days.
+                {SITE_NAME} — enterprise fiber optics procurement, RFQs, and order support.
+                We typically respond within 24 hours on business days.
               </p>
             </div>
 
