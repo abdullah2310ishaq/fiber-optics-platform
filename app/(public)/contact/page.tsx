@@ -16,7 +16,7 @@ export default function ContactPage() {
         <div className="grid gap-10 lg:grid-cols-5 lg:gap-14">
           <aside className="space-y-6 lg:col-span-2">
             <div className="rounded-2xl border border-border bg-card p-6">
-              <h2 className="home-label text-lg font-bold text-foreground">Talk to our team</h2>
+              <h2 className="display-font text-lg font-bold text-foreground">Talk to our team</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 Enterprise fiber optics procurement, RFQs, and order support. We typically
                 respond within 24 hours on business days.

@@ -264,6 +264,71 @@ body {
   animation-play-state: paused;
 }
 
+.marquee-track-reverse {
+  animation: marquee 40s linear infinite reverse;
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes float-slow-delayed {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-10px) translateX(6px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shimmer-line {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.home-float {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.home-float-delayed {
+  animation: float-slow-delayed 9s ease-in-out infinite;
+}
+
+.home-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.home-shimmer-line {
+  animation: shimmer-line 3s ease-in-out infinite;
+}
+
+.home-grid-fade {
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
 .dot-pattern {
   background-image: radial-gradient(rgba(255, 106, 0, 0.08) 1px, transparent 1px);
   background-size: 24px 24px;

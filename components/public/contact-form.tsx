@@ -111,7 +111,7 @@ export function ContactForm() {
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-5">
-          <p className="home-label text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             Message preview
           </p>
           <pre className="mt-3 whitespace-pre-wrap font-sans text-sm leading-relaxed text-secondary">

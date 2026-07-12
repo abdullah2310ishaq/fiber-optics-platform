@@ -116,7 +116,7 @@ export function FiberChatbot() {
                 <Bot className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="home-label truncate text-sm font-bold text-foreground">
+                <p className="truncate text-sm font-bold text-foreground">
                   Fiber Optics Assistant
                 </p>
                 <p className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
@@ -187,7 +187,7 @@ export function FiberChatbot() {
                     key={s}
                     type="button"
                     onClick={() => sendMessage(s)}
-                    className="home-label rounded-full border border-accent/25 bg-accent/10 px-3 py-1.5 text-[11px] font-medium text-accent transition-colors hover:bg-accent/15"
+                    className="rounded-full border border-accent/25 bg-accent/10 px-3 py-1.5 text-[11px] font-medium text-accent transition-colors hover:bg-accent/15"
                   >
                     {s}
                   </button>
